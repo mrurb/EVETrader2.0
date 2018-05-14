@@ -20,14 +20,14 @@ namespace EVETrader.Api.Controllers
         {
             _context = context;
         }
-
+		/*
         // GET: api/ShoppingLists1
         [HttpGet]
         public IEnumerable<EVETrader.Core.Model.ShoppingList> GetShoppingLists()
         {
             return _context.ShoppingLists;
-        }
-
+        }*/
+		/*
         // GET: api/ShoppingLists1/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetShoppingList([FromRoute] int id)
@@ -117,7 +117,7 @@ namespace EVETrader.Api.Controllers
 
             return Ok(shoppingList);
         }
-
+		*/
         private bool ShoppingListExists(int id)
         {
             return _context.ShoppingLists.Any(e => e.Id == id);

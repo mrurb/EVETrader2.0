@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EVETrader.Core.Data;
 using EVETrader.Core.Model;
+using AutoMapper;
 
 namespace EVETrader.Api.Controllers
 {
@@ -15,22 +16,28 @@ namespace EVETrader.Api.Controllers
     public class ShoppingListsController : Controller
     {
         private readonly ApplicationDbContext _context;
+		private readonly IMapper _mapper;
 
-        public ShoppingListsController(ApplicationDbContext context)
+		public ShoppingListsController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+			_mapper = mapper;
         }
-		/*
+		
 		/// <summary>
 		/// Gets all salesOrders.
 		/// </summary>
 		// GET: api/SalesOrders
 		[HttpGet]
-		public IEnumerable<EVETrader.Core.Model.ShoppingList> GetShoppingListOrders()
+		public IEnumerable<ViewModel.ShoppingList> GetShoppingLists()
 		{
-			return _context.ShoppingLists;
+			return _mapper.Map<List<ViewModel.ShoppingList>>(_context.ShoppingLists.ToList());
 		}
-		*/
+		
+		/// <summary>
+		/// Get items in a salesorder
+		/// </summary>
+		/// <param name="id">Salesorder id</param>
 		// GET: api/ShoppingLists/5
 		[HttpGet("{id}")]
         public async Task<IActionResult> GetShoppingList([FromRoute] int id)
@@ -55,7 +62,7 @@ namespace EVETrader.Api.Controllers
                 return NotFound();
             }
 
-            return Ok(shoppingList);
+            return Ok(_mapper.Map<List<ViewModel.ShoppingList>>(shoppingList));
         }
 		/*
         // PUT: api/ShoppingLists/5
@@ -129,7 +136,7 @@ namespace EVETrader.Api.Controllers
             return Ok(shoppingList);
         }
 		*/
-        private bool ShoppingListExists(int id)
+		private bool ShoppingListExists(int id)
         {
             return _context.ShoppingLists.Any(e => e.Id == id);
         }

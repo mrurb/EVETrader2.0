@@ -29,7 +29,7 @@ namespace EVETrader.Api.Controllers
 		/// </summary>
 		/// <param name="cid">Character id</param>
 		// GET: api/characters/1/SalesOrders
-		[HttpGet("{cid}/SalesOrders/{id}")]
+		[HttpGet("{cid}/SalesOrders")]
 		[SwaggerOperation(Tags = new[] { "SalesOrders" })]
 		public async Task<IActionResult> GetCharactersSalesOrder([FromRoute] int cid)
 		{
@@ -37,15 +37,15 @@ namespace EVETrader.Api.Controllers
 			{
 				return BadRequest(ModelState);
 			}
-
-			var salesOrder = await _context.SalesOrders.Include(u => u.Buyer).Include(u => u.Trader).SingleOrDefaultAsync(s => s.Buyer.Id == cid || s.Trader.Id == cid);
+			
+			var salesOrder = await _context.SalesOrders.Include(u => u.Buyer).Include(u => u.Trader).Where(s => s.Buyer.Id == cid || s.Trader.Id == cid).ToListAsync();
 
 			if (salesOrder == null)
 			{
 				return NotFound();
 			}
 
-			return Ok(_mapper.Map<ViewModel.SalesOrder>(salesOrder));
+			return Ok(_mapper.Map<List<ViewModel.SalesOrder>>(salesOrder));
 		}
 
 	}

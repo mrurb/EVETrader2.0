@@ -36,7 +36,10 @@ namespace EVETrader.Api.Controllers
 		}
 
 
-
+		/// <summary>
+		/// Gets specific salesorder.
+		/// </summary>
+		/// <param name="id">Salesorder id</param>
 		// GET: api/SalesOrders/5
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetSalesOrder([FromRoute] int id)
@@ -56,7 +59,11 @@ namespace EVETrader.Api.Controllers
 			return Ok(_mapper.Map<ViewModel.SalesOrder>(salesOrder));
 		}
 
-
+		/// <summary>
+		/// Update salesorder
+		/// </summary>
+		/// <param name="id">Salesorder id</param>
+		/// <param name="salesOrder">SalesOrder</param>
 		// PUT: api/SalesOrders/5
 		[HttpPut("{id}")]
 		public async Task<IActionResult> PutSalesOrder([FromRoute] int id, [FromBody] ViewModel.SalesOrder salesOrder)
@@ -92,6 +99,10 @@ namespace EVETrader.Api.Controllers
 			return NoContent();
 		}
 
+		/// <summary>
+		/// Create salesorder
+		/// </summary>
+		/// <param name="salesOrder">SalesOrder</param>
 		// POST: api/SalesOrders
 		[HttpPost]
 		public async Task<IActionResult> PostSalesOrder([FromBody] ViewModel.SalesOrder salesOrder)
@@ -105,7 +116,7 @@ namespace EVETrader.Api.Controllers
 			if (UserExists(salesOrder.BuyerID))
 			{
 				var buyer = await _context.Users.FindAsync(salesOrder.BuyerID);
-				salesOrderCore.Trader = buyer;
+				salesOrderCore.Buyer = buyer;
 			}
 			if (UserExists(salesOrder.TraderID))
 			{
@@ -119,7 +130,10 @@ namespace EVETrader.Api.Controllers
 
 			return CreatedAtAction("GetSalesOrder", new { id = salesOrder.Id }, salesOrder);
 		}
-
+		/// <summary>
+		/// delete salesorder
+		/// </summary>
+		/// <param name="id">Salesorder id</param>
 		// DELETE: api/SalesOrders/5
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteSalesOrder([FromRoute] int id)
