@@ -3,7 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EVETrader.Api", "EVETrader.Api\EVETrader.Api.csproj", "{B4D803A3-9682-490D-B50B-491595882AE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EVETrader.Core", "EVETrader.Core\EVETrader.Core.csproj", "{B2219456-31CD-43B9-829F-6BF039654D8E}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B4D803A3-9682-490D-B50B-491595882AE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4D803A3-9682-490D-B50B-491595882AE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4D803A3-9682-490D-B50B-491595882AE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4D803A3-9682-490D-B50B-491595882AE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2219456-31CD-43B9-829F-6BF039654D8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2219456-31CD-43B9-829F-6BF039654D8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2219456-31CD-43B9-829F-6BF039654D8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2219456-31CD-43B9-829F-6BF039654D8E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
