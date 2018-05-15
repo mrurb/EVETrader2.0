@@ -11,19 +11,19 @@ using AutoMapper;
 
 namespace EVETrader.Api.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/ShoppingLists")]
-    public class ShoppingListsController : Controller
-    {
-        private readonly ApplicationDbContext _context;
+	[Produces("application/json")]
+	[Route("api/ShoppingLists")]
+	public class ShoppingListsController : Controller
+	{
+		private readonly ApplicationDbContext _context;
 		private readonly IMapper _mapper;
 
 		public ShoppingListsController(ApplicationDbContext context, IMapper mapper)
-        {
-            _context = context;
+		{
+			_context = context;
 			_mapper = mapper;
-        }
-		
+		}
+
 		/// <summary>
 		/// Gets all salesOrders.
 		/// </summary>
@@ -33,19 +33,19 @@ namespace EVETrader.Api.Controllers
 		{
 			return _mapper.Map<List<ViewModel.ShoppingList>>(_context.ShoppingLists.ToList());
 		}
-		
+
 		/// <summary>
 		/// Get items in a salesorder
 		/// </summary>
 		/// <param name="id">Salesorder id</param>
-		// GET: api/ShoppingLists/5
+		// GET: api/ShoppingList/5
 		[HttpGet("{id}")]
-        public async Task<IActionResult> GetShoppingList([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+		public async Task<IActionResult> GetShoppingList([FromRoute] int id)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
 			List<ShoppingList> shoppingList = null;
 			try
 			{
@@ -57,13 +57,13 @@ namespace EVETrader.Api.Controllers
 
 				throw e;
 			}
-            if (shoppingList == null)
-            {
-                return NotFound();
-            }
+			if (shoppingList == null)
+			{
+				return NotFound();
+			}
 
-            return Ok(_mapper.Map<List<ViewModel.ShoppingList>>(shoppingList));
-        }
+			return Ok(_mapper.Map<List<ViewModel.ShoppingList>>(shoppingList));
+		}
 		/*
         // PUT: api/ShoppingLists/5
         [HttpPut("{id}")]
@@ -99,22 +99,70 @@ namespace EVETrader.Api.Controllers
 
             return NoContent();
         }
+		*/
+		/// <summary>
+		/// Add items to cart
+		/// </summary>
+		/// <param name="SalesOrderId">SalesOrder ID</param>
+		/// <param name="Items"></param>
+		/// <returns></returns>
 
-        // POST: api/ShoppingLists
-        [HttpPost]
-        public async Task<IActionResult> PostShoppingList([FromBody] ShoppingList shoppingList)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+		// POST: api/ShoppingLists/id
+		[HttpPost("additems/{SalesOrderId}")]
+		public async Task<IActionResult> PostItems([FromRoute] int SalesOrderId, [FromBody] List<Items> Items)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+			var salesOrder = await _context.SalesOrders.Include(s => s.ShoppingList).SingleOrDefaultAsync(s => s.Id == SalesOrderId);
+			foreach (var item in Items)
+			{
+				if (salesOrder.ShoppingList.Any(i => i.TypeID == item.TypeId))
+				{
+					var x = salesOrder.ShoppingList.SingleOrDefault(i => i.TypeID == item.TypeId).Quantity += item.Quantity;
+				}
+				else
+				{
+					salesOrder.ShoppingList.Add(new ShoppingList() { SalesOrder = salesOrder, TypeID = item.TypeId, Quantity = item.Quantity });
+				}
+			}
+			await _context.SaveChangesAsync();
 
-            _context.ShoppingLists.Add(shoppingList);
-            await _context.SaveChangesAsync();
+			return CreatedAtAction("GetShoppingLists", new { id = SalesOrderId }, salesOrder.ShoppingList);
+		}
+		
+		/// <summary>
+		/// Add items to cart
+		/// </summary>
+		/// <param name="SalesOrderId">SalesOrder ID</param>
+		/// <param name="item"></param>
+		/// <returns></returns>
 
-            return CreatedAtAction("GetShoppingList", new { id = shoppingList.Id }, shoppingList);
-        }
+		// POST: api/ShoppingLists/id
+		[HttpPost("additem/{SalesOrderId}")]
+		public async Task<IActionResult> PostItemTest([FromRoute] int SalesOrderId, [FromBody] Items item)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+			var salesOrder = await _context.SalesOrders.Include(s => s.ShoppingList).SingleOrDefaultAsync(s => s.Id == SalesOrderId);
 
+			if (salesOrder.ShoppingList.Any(i => i.TypeID == item.TypeId))
+			{
+				var x = salesOrder.ShoppingList.SingleOrDefault(i => i.TypeID == item.TypeId).Quantity += item.Quantity;
+			}
+			else
+			{
+				salesOrder.ShoppingList.Add(new ShoppingList() { SalesOrder = salesOrder, TypeID = item.TypeId, Quantity = item.Quantity });
+			}
+
+			await _context.SaveChangesAsync();
+
+			return CreatedAtAction("GetShoppingLists", new { id = SalesOrderId }, salesOrder.ShoppingList);
+		}
+		/*
         // DELETE: api/ShoppingLists/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteShoppingList([FromRoute] int id)
@@ -137,8 +185,15 @@ namespace EVETrader.Api.Controllers
         }
 		*/
 		private bool ShoppingListExists(int id)
-        {
-            return _context.ShoppingLists.Any(e => e.Id == id);
-        }
-    }
+		{
+			return _context.ShoppingLists.Any(e => e.Id == id);
+		}
+	}
+
+	public class Items
+	{
+		public int TypeId { get; set; }
+		public int Quantity { get; set; }
+
+	}
 }
