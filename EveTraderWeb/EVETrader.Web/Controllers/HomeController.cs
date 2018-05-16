@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using EVETrader.Web.Models;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
-using IO.Swagger.Api;
+//using IO.Swagger.Client;
+//using IO.Swagger.Model;
+//using IO.Swagger.Api;
 
 namespace EVETrader.Web.Controllers
 {
@@ -15,8 +15,8 @@ namespace EVETrader.Web.Controllers
     {
         public IActionResult Index()
         {
-			var client = new SalesOrdersApi();
-			var test = client.ApiSalesOrdersGet();
+			//var client = new SalesOrdersApi();
+			//var test = client.ApiSalesOrdersGet();
 
             return View();
         }

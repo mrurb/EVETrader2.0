@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authentication.OAuth;
 
 namespace EVETrader.Web
 {
@@ -35,6 +36,9 @@ namespace EVETrader.Web
 			{
 				options.LoginPath = "/login";
 				options.LogoutPath = "/logout";
+				options.SlidingExpiration = true;
+				options.ExpireTimeSpan = TimeSpan.FromDays(7);
+				options.Cookie.Expiration = TimeSpan.FromDays(7);
 			})
 
 			.AddEVEOnline(options =>
@@ -111,6 +115,16 @@ namespace EVETrader.Web
 				options.Scope.Add("esi-universe.read_structures.v1");
 				options.Scope.Add("esi-wallet.read_character_wallet.v1");
 				options.Scope.Add("esi-wallet.read_corporation_wallets.v1");
+
+				options.Events = new OAuthEvents()
+				{
+					OnTicketReceived = context =>
+					{
+						context.Properties.IsPersistent = true;
+						context.Properties.ExpiresUtc = DateTimeOffset.UtcNow.AddDays(7);
+						return Task.FromResult(0);
+					}
+				};
 
 			});
 			

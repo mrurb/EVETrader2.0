@@ -21,8 +21,4 @@
     <Folder Include="Views\Authentication\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\EVETrader.Api\EVETrader.Api.csproj" />
-  </ItemGroup>
-
 </Project>

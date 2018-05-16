@@ -8,6 +8,7 @@ using AutoMapper;
 using EVETrader.Core.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,7 +35,7 @@ namespace EVETrader.Api
 
 			services.AddSwaggerGen(c =>
 			{
-				c.SwaggerDoc("v1", new Info { Title = "EVETrader API", Version = "V1" });
+				c.SwaggerDoc("v1", new Info { Title = "EVETrader API", Version = "V1"});
 				var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
 				var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
 				c.IncludeXmlComments(xmlPath);
@@ -46,6 +47,11 @@ namespace EVETrader.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+
+			var options = new RewriteOptions()
+				.AddRedirectToHttps();
+
+			app.UseRewriter(options);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
