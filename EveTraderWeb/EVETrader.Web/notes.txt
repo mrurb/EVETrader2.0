@@ -1,0 +1,12 @@
+﻿set executable=swagger-codegen-cli.jar
+
+REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M
+set ags=generate -i https://esi.tech.ccp.is/_latest/swagger.json?datasource=tranquility -l csharp -o ESI --additional-properties targetFramework=v5.0,packageGuid={67035b31-f8e5-41a4-9673-954035084f7d},packageName=ESI
+
+java %JAVA_OPTS% -jar %executable% %ags%
+
+
+
+
+https://editor.swagger.io
+https://generator.swagger.io/
