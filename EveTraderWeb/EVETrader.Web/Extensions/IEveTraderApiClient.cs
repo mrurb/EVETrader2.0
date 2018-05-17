@@ -34,6 +34,7 @@ namespace EVETrader.Web.Extensions
 			client.BaseAddress = new Uri(baseUrl);
 
 		}
+
 		/// <summary>
 		/// Makes the asynchronous HTTP request.
 		/// </summary>
@@ -47,12 +48,13 @@ namespace EVETrader.Web.Extensions
 		/// <param name="pathParams">Path parameters.</param>
 		/// <param name="contentType">Content type.</param>
 		/// <returns>The Task instance.</returns>
-		public async Task<Object> CallApi(string token, string path, HttpMethod method)
+		public async Task<Object> CallApi(string token, string path, HttpMethod method, HttpContent content, HttpHeaders headers )
 		{
 			client.DefaultRequestHeaders.Clear();
 			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearrer", token);
-			//HttpRequestMessage test = new HttpRequestMessage() { Method = }
+			var requestUri = new Uri(path);
+			HttpRequestMessage test = new HttpRequestMessage() { Method = method, Content = content, RequestUri = requestUri };
 
 			var response = await client.GetAsync(path);
 			return (Object)response;

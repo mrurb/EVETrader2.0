@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authentication.OAuth;
+using EVETrader.Core.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace EVETrader.Web
 {
@@ -130,8 +132,8 @@ namespace EVETrader.Web
 				};
 
 			});
-			
-            services.AddMvc();
+			services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("EVETrader.Web")));
+			services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

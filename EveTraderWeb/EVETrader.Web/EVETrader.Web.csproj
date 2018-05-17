@@ -22,6 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\EVETrader.Core\EVETrader.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="IO.Swagger">
       <HintPath>libs\IO.Swagger.dll</HintPath>
     </Reference>

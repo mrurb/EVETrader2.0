@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EVETrader.Web", "EVETrader.Web\EVETrader.Web.csproj", "{D571F5E9-B8F9-46C1-93E1-7F4B08542F64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EVETrader.ESI", "EVETrader.ESI\EVETrader.ESI.csproj", "{1D73E876-1F2A-4AA1-B255-4640756D497C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EVETrader.Core", "..\EVETrader.Core\EVETrader.Core.csproj", "{A20CFE42-9C58-4DA4-9F76-C86C11BCEB16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{D571F5E9-B8F9-46C1-93E1-7F4B08542F64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D571F5E9-B8F9-46C1-93E1-7F4B08542F64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D571F5E9-B8F9-46C1-93E1-7F4B08542F64}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1D73E876-1F2A-4AA1-B255-4640756D497C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1D73E876-1F2A-4AA1-B255-4640756D497C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1D73E876-1F2A-4AA1-B255-4640756D497C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1D73E876-1F2A-4AA1-B255-4640756D497C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A20CFE42-9C58-4DA4-9F76-C86C11BCEB16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A20CFE42-9C58-4DA4-9F76-C86C11BCEB16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A20CFE42-9C58-4DA4-9F76-C86C11BCEB16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A20CFE42-9C58-4DA4-9F76-C86C11BCEB16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
