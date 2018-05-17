@@ -10,32 +10,45 @@ using EVETrader.Core.Model;
 
 namespace EVETrader.Web.Controllers
 {
-    public class SalesOrders2Controller : Controller
+    public class SalesOrdersController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public SalesOrders2Controller(ApplicationDbContext context)
+        public SalesOrdersController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: SalesOrders2
+        // GET: SalesOrders
         public async Task<IActionResult> Index()
         {
-			var salesOrder = new List<SalesOrder>();
+            var salesOrder1 = new SalesOrder()
+            {
+                Id = 1,
+                estimatedPrice = 1203
+            };
+            var salesOrder2 = new SalesOrder()
+            {
+                Id = 3,
+                estimatedPrice = 333
+            };
+            var salesOrder = new List<SalesOrder>();
+            salesOrder.Add(salesOrder1);
+            salesOrder.Add(salesOrder2);
             return View(salesOrder);
         }
 
-        // GET: SalesOrders2/Details/5
+        // GET: SalesOrders/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            var salesOrder = new SalesOrder();
             if (id == null)
             {
                 return NotFound();
             }
 
-            var salesOrder = await _context.SalesOrders
-                .SingleOrDefaultAsync(m => m.Id == id);
+            //var salesOrder = await _context.SalesOrders
+                //.SingleOrDefaultAsync(m => m.Id == id);
             if (salesOrder == null)
             {
                 return NotFound();
@@ -44,13 +57,13 @@ namespace EVETrader.Web.Controllers
             return View(salesOrder);
         }
 
-        // GET: SalesOrders2/Create
+        // GET: SalesOrders/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: SalesOrders2/Create
+        // POST: SalesOrders/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -59,22 +72,22 @@ namespace EVETrader.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(salesOrder);
-                await _context.SaveChangesAsync();
+                //_context.Add(salesOrder);
+                //await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(salesOrder);
         }
 
-        // GET: SalesOrders2/Edit/5
+        // GET: SalesOrders/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
-            var salesOrder = await _context.SalesOrders.SingleOrDefaultAsync(m => m.Id == id);
+            var salesOrder = new SalesOrder();
+            //var salesOrder = await _context.SalesOrders.SingleOrDefaultAsync(m => m.Id == id);
             if (salesOrder == null)
             {
                 return NotFound();
@@ -82,7 +95,7 @@ namespace EVETrader.Web.Controllers
             return View(salesOrder);
         }
 
-        // POST: SalesOrders2/Edit/5
+        // POST: SalesOrders/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -98,8 +111,8 @@ namespace EVETrader.Web.Controllers
             {
                 try
                 {
-                    _context.Update(salesOrder);
-                    await _context.SaveChangesAsync();
+                    //_context.Update(salesOrder);
+                    //await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -117,16 +130,16 @@ namespace EVETrader.Web.Controllers
             return View(salesOrder);
         }
 
-        // GET: SalesOrders2/Delete/5
+        // GET: SalesOrders/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
-            var salesOrder = await _context.SalesOrders
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var salesOrder = new SalesOrder();
+            //var salesOrder = await _context.SalesOrders
+                //.SingleOrDefaultAsync(m => m.Id == id);
             if (salesOrder == null)
             {
                 return NotFound();
@@ -135,20 +148,20 @@ namespace EVETrader.Web.Controllers
             return View(salesOrder);
         }
 
-        // POST: SalesOrders2/Delete/5
+        // POST: SalesOrders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var salesOrder = await _context.SalesOrders.SingleOrDefaultAsync(m => m.Id == id);
-            _context.SalesOrders.Remove(salesOrder);
-            await _context.SaveChangesAsync();
+            //var salesOrder = await _context.SalesOrders.SingleOrDefaultAsync(m => m.Id == id);
+            //_context.SalesOrders.Remove(salesOrder);
+            //await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool SalesOrderExists(int id)
         {
-            return _context.SalesOrders.Any(e => e.Id == id);
+            return false; //_context.SalesOrders.Any(e => e.Id == id);
         }
     }
 }
