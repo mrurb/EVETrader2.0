@@ -118,12 +118,15 @@ namespace EVETrader.Web
 
 				options.Events = new OAuthEvents()
 				{
+					
 					OnTicketReceived = context =>
 					{
 						context.Properties.IsPersistent = true;
 						context.Properties.ExpiresUtc = DateTimeOffset.UtcNow.AddDays(7);
 						return Task.FromResult(0);
 					}
+
+					
 				};
 
 			});

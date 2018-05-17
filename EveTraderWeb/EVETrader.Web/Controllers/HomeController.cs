@@ -15,6 +15,9 @@ namespace EVETrader.Web.Controllers
     {
         public IActionResult Index()
         {
+			//var client = new UniverseApi();
+			//var cats = client.GetUniverseCategories();
+
 			//var client = new SalesOrdersApi();
 			//var test = client.ApiSalesOrdersGet();
 

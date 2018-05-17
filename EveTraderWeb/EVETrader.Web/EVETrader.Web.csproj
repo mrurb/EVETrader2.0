@@ -21,4 +21,10 @@
     <Folder Include="Views\Authentication\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="IO.Swagger">
+      <HintPath>libs\IO.Swagger.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
