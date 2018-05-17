@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using EVETrader.Core.Data;
 using Microsoft.EntityFrameworkCore;
+using EVETrader.Web.Extensions;
 
 namespace EVETrader.Web
 {
@@ -133,6 +134,7 @@ namespace EVETrader.Web
 
 			});
 			services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("EVETrader.Web")));
+			services.AddScoped<IEveTraderApiClient, EveTraderApiClient>();
 			services.AddMvc();
         }
 

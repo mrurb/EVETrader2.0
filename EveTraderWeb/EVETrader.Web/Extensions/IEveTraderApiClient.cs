@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
+
 namespace EVETrader.Web.Extensions
 {
     interface IEveTraderApiClient
@@ -38,30 +39,31 @@ namespace EVETrader.Web.Extensions
 		/// <summary>
 		/// Makes the asynchronous HTTP request.
 		/// </summary>
+		/// <param name="token">Auth token</param>
 		/// <param name="path">URL path.</param>
 		/// <param name="method">HTTP method.</param>
-		/// <param name="queryParams">Query parameters.</param>
-		/// <param name="postBody">HTTP body (POST request).</param>
-		/// <param name="headerParams">Header parameters.</param>
-		/// <param name="formParams">Form parameters.</param>
-		/// <param name="fileParams">File parameters.</param>
-		/// <param name="pathParams">Path parameters.</param>
-		/// <param name="contentType">Content type.</param>
+		/// <param name="content">HTTP body (POST request)</param>
+		/// <param name="headers">Header parameters.</param>
 		/// <returns>The Task instance.</returns>
 		public async Task<Object> CallApi(string token, string path, HttpMethod method, HttpContent content, HttpHeaders headers )
 		{
 			client.DefaultRequestHeaders.Clear();
 			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearrer", token);
+			//client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearrer", token);
 			var requestUri = new Uri(path);
-			HttpRequestMessage test = new HttpRequestMessage() { Method = method, Content = content, RequestUri = requestUri };
+			HttpRequestMessage request = new HttpRequestMessage() { Method = method, Content = content, RequestUri = requestUri };
 
-			var response = await client.GetAsync(path);
+			var response = await client.SendAsync(request);
 			return (Object)response;
 		}
+	}
 
+	public class SalesOrderApi
+	{
+		public SalesOrderApi(EveTraderApiClient eveTraderApiClient)
+		{
 
-
+		}
 	}
 
 	interface ISalesOrderRepository

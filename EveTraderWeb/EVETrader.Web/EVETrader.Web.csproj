@@ -5,6 +5,11 @@
     <UserSecretsId>9898f2e7-7215-43db-8215-dd5e965a34d3</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp2.0\EVETrader.Web.xml</DocumentationFile>
+    <NoWarn>1701;1702;1705;1591</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="AspNet.Security.OAuth.EVEOnline" Version="2.0.0-rc2-final" />
     <PackageReference Include="BuildBundlerMinifier" Version="2.7.385" />
