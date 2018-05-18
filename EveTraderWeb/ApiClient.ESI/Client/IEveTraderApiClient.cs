@@ -44,7 +44,7 @@ namespace IOApiClient.ESI.Client
 		/// <param name="content">HTTP body (POST request)</param>
 		/// <param name="headers">Header parameters.</param>
 		/// <returns>The Task instance.</returns>
-		public async Task<Object> CallApi(string token, string path, HttpMethod method, HttpContent content, HttpHeaders headers )
+		public async Task<HttpResponseMessage> CallApi(string token, string path, HttpMethod method, HttpContent content)
 		{
 			client.DefaultRequestHeaders.Clear();
 			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -53,7 +53,7 @@ namespace IOApiClient.ESI.Client
 			HttpRequestMessage request = new HttpRequestMessage() { Method = method, Content = content, RequestUri = requestUri };
 
 			var response = await client.SendAsync(request);
-			return (Object)response;
+			return response;
 		}
 	}
 
