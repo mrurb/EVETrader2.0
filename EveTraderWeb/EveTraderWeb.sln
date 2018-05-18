@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EVETrader.Web", "EVETrader.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EVETrader.Core", "..\EVETrader.Core\EVETrader.Core.csproj", "{A20CFE42-9C58-4DA4-9F76-C86C11BCEB16}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IOApiClient.ESI", "ApiClient.ESI\IOApiClient.ESI.csproj", "{D638689A-5C16-40F3-B8FD-0B93E919A6FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EveTrader.Web.Core", "EveTrader.Web.Core\EveTrader.Web.Core.csproj", "{3E02CE8A-5BAE-4C7B-9866-80B6741154B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{A20CFE42-9C58-4DA4-9F76-C86C11BCEB16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A20CFE42-9C58-4DA4-9F76-C86C11BCEB16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A20CFE42-9C58-4DA4-9F76-C86C11BCEB16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D638689A-5C16-40F3-B8FD-0B93E919A6FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D638689A-5C16-40F3-B8FD-0B93E919A6FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D638689A-5C16-40F3-B8FD-0B93E919A6FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D638689A-5C16-40F3-B8FD-0B93E919A6FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E02CE8A-5BAE-4C7B-9866-80B6741154B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E02CE8A-5BAE-4C7B-9866-80B6741154B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E02CE8A-5BAE-4C7B-9866-80B6741154B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E02CE8A-5BAE-4C7B-9866-80B6741154B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

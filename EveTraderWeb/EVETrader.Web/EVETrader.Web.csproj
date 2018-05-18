@@ -5,6 +5,15 @@
     <UserSecretsId>9898f2e7-7215-43db-8215-dd5e965a34d3</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp2.0\EVETrader.Web.xml</DocumentationFile>
+    <NoWarn>1701;1702;1705;1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Extensions\IEveTraderApiClient.cs" />
+  </ItemGroup>
+
   <ItemGroup>
     <Compile Remove="NewFolder\**" />
     <Content Remove="NewFolder\**" />
@@ -29,6 +38,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\EVETrader.Core\EVETrader.Core.csproj" />
+    <ProjectReference Include="..\ApiClient.ESI\IOApiClient.ESI.csproj" />
   </ItemGroup>
 
   <ItemGroup>

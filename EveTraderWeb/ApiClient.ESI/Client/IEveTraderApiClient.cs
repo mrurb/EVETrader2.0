@@ -1,5 +1,4 @@
-﻿using EVETrader.Web.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -7,26 +6,26 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 
-namespace EVETrader.Web.Extensions
+namespace IOApiClient.ESI.Client
 {
-    interface IEveTraderApiClient
+	public interface IApiClient
     {
 		
     }
 
-	public class EveTraderApiClient : IEveTraderApiClient
+	public class ApiClient : IApiClient
 	{
 		private readonly HttpClient client;
 
 		
 
-		public EveTraderApiClient()
+		public ApiClient()
 		{
 			client = new HttpClient();
 			client.BaseAddress = new Uri("https://esi.evetech.net");
 		}
 
-		public EveTraderApiClient(string baseUrl = "https://esi.evetech.net")
+		public ApiClient(string baseUrl = "https://esi.evetech.net")
 		{
 			if (String.IsNullOrEmpty(baseUrl))
 				throw new ArgumentException("basePath cannot be empty");
@@ -45,7 +44,7 @@ namespace EVETrader.Web.Extensions
 		/// <param name="content">HTTP body (POST request)</param>
 		/// <param name="headers">Header parameters.</param>
 		/// <returns>The Task instance.</returns>
-		public async Task<Object> CallApi(string token, string path, HttpMethod method, HttpContent content, HttpHeaders headers )
+		public async Task<HttpResponseMessage> CallApi(string token, string path, HttpMethod method, HttpContent content)
 		{
 			client.DefaultRequestHeaders.Clear();
 			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -54,28 +53,9 @@ namespace EVETrader.Web.Extensions
 			HttpRequestMessage request = new HttpRequestMessage() { Method = method, Content = content, RequestUri = requestUri };
 
 			var response = await client.SendAsync(request);
-			return (Object)response;
+			return response;
 		}
 	}
 
-	public class SalesOrderApi
-	{
-		private readonly EveTraderApiClient eveTraderApiClient;
-
-		public SalesOrderApi(EveTraderApiClient eveTraderApiClient)
-		{
-			this.eveTraderApiClient = eveTraderApiClient;
-		}
-	}
-
-	interface ISalesOrderRepository
-	{
-		IEnumerable<SalesOrder> ListAll();
-		SalesOrder Add(SalesOrder salesOrder);
-		SalesOrder Get(int salesOrderId);
-		SalesOrder Get(int salesOrderId, int characterId);
-		SalesOrder Update(SalesOrder salesOrder);
-		SalesOrder Delete(SalesOrder salesOrder);
-
-	}
+	
 }
