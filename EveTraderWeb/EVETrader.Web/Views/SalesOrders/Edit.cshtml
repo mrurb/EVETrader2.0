@@ -1,4 +1,4 @@
-﻿@model EVETrader.Core.Model.SalesOrder
+﻿@model EVETrader.Web.Models.SalesOrderUpdate
 
 @{
     ViewData["Title"] = "Edit";
@@ -18,11 +18,7 @@
                 <input asp-for="Destination" class="form-control" />
                 <span asp-validation-for="Destination" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="estimatedPrice" class="control-label"></label>
-                <input asp-for="estimatedPrice" class="form-control" />
-                <span asp-validation-for="estimatedPrice" class="text-danger"></span>
-            </div>
+            
             <div class="form-group">
                 <label asp-for="Tip" class="control-label"></label>
                 <input asp-for="Tip" class="form-control" />

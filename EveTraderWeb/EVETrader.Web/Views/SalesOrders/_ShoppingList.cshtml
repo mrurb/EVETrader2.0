@@ -1,0 +1,37 @@
+﻿@model EVETrader.Web.Models.SalesOrderDetailsView
+
+
+<p>
+    <a asp-action="AddItem" asp-controller="SalesOrders" asp-route-id="@Model.Id">Add Item</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ShoppingList[0].Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShoppingList[0].TypeId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ShoppingList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TypeId)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

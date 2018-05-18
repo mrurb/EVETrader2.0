@@ -9,18 +9,18 @@ namespace EVETrader.Web.Models
 {
     public class SalesOrderIndexView
     {
-        public int id { get; set; } //hidden
+        public int Id { get; set; } //hidden
         [DisplayName("Trader")]
-        public String traderUsername { get; set; }
+        public String TraderUsername { get; set; }
         [DisplayName("Buyer")]
-        public String buyerUsername { get; set; }
+        public String BuyerUsername { get; set; }
         [DisplayName("Destination")]
-        public String destination { get; set; }
+        public String Destination { get; set; }
         [DisplayName("Price")]
-        public int estimatedPrice { get; set; }
+        public int EstimatedPrice { get; set; }
         [DisplayName("Tip")]
-        public double tip { get; set; }
-        public int published { get; set; } //hidden
+        public double Tip { get; set; }
+        public int Published { get; set; } //hidden
         
     }
 
@@ -28,50 +28,53 @@ namespace EVETrader.Web.Models
     {
         [DisplayName("Trader")]
         [Required]
-        public String traderUsername { get; set; }
+        public String TraderUsername { get; set; }
         [DisplayName("Buyer")]
         [Required]
-        public String buyerUsername { get; set; }
+        public String BuyerUsername { get; set; }
         [DisplayName("Destination")]
         [Required]
-        public String destination { get; set; }
+        public String Destination { get; set; }
         [DisplayName("Tip")]
-        public int tip { get; set; }
+        public int Tip { get; set; }
 
     }
 
     public class SalesOrderDetailsView
     {
-        public int id { get; set; } //hidden
+        public int Id { get; set; } //hidden
         [DisplayName("Trader")]
-        public String traderUsername { get; set; }
+        public String TraderUsername { get; set; }
         [DisplayName("Buyer")]
-        public String buyerUsername { get; set; }
+        public String BuyerUsername { get; set; }
         [DisplayName("Destination")]
-        public String destination { get; set; }
+        public String Destination { get; set; }
         [DisplayName("Price")]
-        public int estimatedPrice { get; set; }
+        public int EstimatedPrice { get; set; }
         [DisplayName("Tip")]
-        public int tip { get; set; }
+        public int Tip { get; set; }
         [DisplayName("Published")]
-        public bool published { get; set; }
+        public bool Published { get; set; }
+
+        public List<ShoppingListViewModel> ShoppingList { get; set; }
     }
 
     public class SalesOrderUpdate
-    {
+    {   
+        public int Id { get; set; }
         [DisplayName("Trader")]
         [Required]
-        public String traderUsername { get; set; }
+        public String TraderUsername { get; set; }
         [DisplayName("Buyer")]
         [Required]
-        public String buyerUsername { get; set; }
+        public String BuyerUsername { get; set; }
         [DisplayName("Destination")]
         [Required]
-        public String destination { get; set; }
+        public String Destination { get; set; }
         [DisplayName("Tip")]
-        public int tip { get; set; }
+        public int Tip { get; set; }
         [DisplayName("Published")]
         [Required]
-        public bool published { get; set; }
+        public bool Published { get; set; }
     }
 }

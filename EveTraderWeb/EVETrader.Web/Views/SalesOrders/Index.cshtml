@@ -1,4 +1,4 @@
-﻿@model IEnumerable<EVETrader.Core.Model.SalesOrder>
+﻿@model IEnumerable<EVETrader.Web.Models.SalesOrderIndexView>
 
 @{
     ViewData["Title"] = "Index";
@@ -16,7 +16,7 @@
                     @Html.DisplayNameFor(model => model.Destination)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.estimatedPrice)
+                    @Html.DisplayNameFor(model => model.EstimatedPrice)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Tip)
@@ -34,7 +34,7 @@
                 @Html.DisplayFor(modelItem => item.Destination)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.estimatedPrice)
+                @Html.DisplayFor(modelItem => item.EstimatedPrice)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Tip)

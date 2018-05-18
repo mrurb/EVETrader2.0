@@ -1,4 +1,4 @@
-﻿@model EVETrader.Core.Model.SalesOrder
+﻿@model EVETrader.Web.Models.SalesOrderDetailsView
 
 @{
     ViewData["Title"] = "Delete";
@@ -18,10 +18,22 @@
             @Html.DisplayFor(model => model.Destination)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.estimatedPrice)
+            @Html.DisplayNameFor(model => model.TraderUsername)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.estimatedPrice)
+            @Html.DisplayFor(model => model.TraderUsername)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BuyerUsername)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BuyerUsername)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EstimatedPrice)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EstimatedPrice)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Tip)

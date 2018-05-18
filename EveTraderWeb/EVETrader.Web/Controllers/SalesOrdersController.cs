@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EVETrader.Core.Data;
-using EVETrader.Core.Model;
+using EVETrader.Web.Models;
 
 namespace EVETrader.Web.Controllers
 {
@@ -22,17 +22,17 @@ namespace EVETrader.Web.Controllers
         // GET: SalesOrders
         public async Task<IActionResult> Index()
         {
-            var salesOrder1 = new SalesOrder()
+            var salesOrder1 = new SalesOrderIndexView()
             {
                 Id = 1,
-                estimatedPrice = 1203
+                EstimatedPrice = 1203
             };
-            var salesOrder2 = new SalesOrder()
+            var salesOrder2 = new SalesOrderIndexView()
             {
                 Id = 3,
-                estimatedPrice = 333
+                EstimatedPrice = 333
             };
-            var salesOrder = new List<SalesOrder>();
+            var salesOrder = new List<SalesOrderIndexView>();
             salesOrder.Add(salesOrder1);
             salesOrder.Add(salesOrder2);
             return View(salesOrder);
@@ -41,7 +41,30 @@ namespace EVETrader.Web.Controllers
         // GET: SalesOrders/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            var salesOrder = new SalesOrder();
+            var salesOrder = new SalesOrderDetailsView()
+            {
+                BuyerUsername = "1",
+                Destination = "3",
+                Published = false,
+                EstimatedPrice = 123,
+                Id = 1,
+                ShoppingList = new List<ShoppingListViewModel>()
+                 {
+                     new ShoppingListViewModel()
+                     {
+                         Id = 1,
+                         Quantity = 3,
+                         TypeId = 4
+                     },
+                     new ShoppingListViewModel()
+                     {
+                          Id = 9,
+                         Quantity = 38,
+                         TypeId = 47
+                     }
+
+                 }
+            };
             if (id == null)
             {
                 return NotFound();
@@ -86,7 +109,7 @@ namespace EVETrader.Web.Controllers
             {
                 return NotFound();
             }
-            var salesOrder = new SalesOrder();
+            var salesOrder = new SalesOrderUpdate();
             //var salesOrder = await _context.SalesOrders.SingleOrDefaultAsync(m => m.Id == id);
             if (salesOrder == null)
             {
@@ -131,13 +154,14 @@ namespace EVETrader.Web.Controllers
         }
 
         // GET: SalesOrders/Delete/5
+        
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var salesOrder = new SalesOrder();
+            var salesOrder = new SalesOrderDetailsView();
             //var salesOrder = await _context.SalesOrders
                 //.SingleOrDefaultAsync(m => m.Id == id);
             if (salesOrder == null)
@@ -158,6 +182,31 @@ namespace EVETrader.Web.Controllers
             //await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+
+        // GET: SalesOrders/AddItem/1
+        public IActionResult AddItem(int? id)
+        {
+            ViewBag.SalesOrderId = id;
+            return View();
+        }
+
+        // POST: SalesOrders/AddItem
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddItem([Bind("Id,Quantity,TypeID")] ShoppingListViewModel shoppingListViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                //_context.Add(shoppingListViewModel);
+                //await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(shoppingListViewModel);
+        }
+
 
         private bool SalesOrderExists(int id)
         {
