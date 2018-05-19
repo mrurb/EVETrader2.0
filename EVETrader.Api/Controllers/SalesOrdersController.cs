@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using EVETrader.Core.Data;
 using EVETrader.Core.Model;
 using AutoMapper;
+using EVETrader.Core.Repositories;
 
 namespace EVETrader.Api.Controllers
 {
@@ -18,20 +19,23 @@ namespace EVETrader.Api.Controllers
 	{
 		private readonly ApplicationDbContext _context;
 		private readonly IMapper _mapper;
+        private readonly ISalesOrderRepository salesOrderRepository;
 
-		public SalesOrdersController(ApplicationDbContext context, IMapper mapper)
+        public SalesOrdersController(ApplicationDbContext context, IMapper mapper, ISalesOrderRepository salesOrderRepository)
 		{
 			_context = context;
 			_mapper = mapper;
+            this.salesOrderRepository = salesOrderRepository;
 		}
 		/// <summary>
 		/// Gets all salesOrders.
 		/// </summary>
 		// GET: api/SalesOrders
 		[HttpGet]
-		public IEnumerable<ViewModel.SalesOrder> GetSalesOrdersAsync()
+		public async Task<IEnumerable<ViewModel.SalesOrder>> GetSalesOrdersAsync()
 		{
-			var salesOrder = _context.SalesOrders.Include(u => u.Buyer).Include(u => u.Trader);
+			//var salesOrder = _context.SalesOrders.Include(u => u.Buyer).Include(u => u.Trader);
+            var salesOrder = await salesOrderRepository.ListAllAsync();
 			return _mapper.Map<List<ViewModel.SalesOrder>>(salesOrder);
 		}
 
@@ -49,8 +53,8 @@ namespace EVETrader.Api.Controllers
 				return BadRequest(ModelState);
 			}
 
-			var salesOrder = await _context.SalesOrders.Include(u => u.Buyer).Include(u => u.Trader).SingleOrDefaultAsync(s => s.Id == id);
-
+            //var salesOrder = await _context.SalesOrders.Include(u => u.Buyer).Include(u => u.Trader).SingleOrDefaultAsync(s => s.Id == id);
+            var salesOrder = await salesOrderRepository.GetAsync(id);
 			if (salesOrder == null)
 			{
 				return NotFound();
@@ -78,8 +82,10 @@ namespace EVETrader.Api.Controllers
 				return BadRequest();
 			}
 			var salesOrderCore = _mapper.Map<Core.Model.SalesOrder>(salesOrder);
-			_context.Entry(salesOrderCore).State = EntityState.Modified;
+            await salesOrderRepository.UpdateAsync(salesOrderCore);
+            //_context.Entry(salesOrderCore).State = EntityState.Modified;
 
+            /*
 			try
 			{
 				await _context.SaveChangesAsync();
@@ -95,7 +101,7 @@ namespace EVETrader.Api.Controllers
 					throw;
 				}
 			}
-
+            */
 			return NoContent();
 		}
 
@@ -115,18 +121,21 @@ namespace EVETrader.Api.Controllers
 			var salesOrderCore = _mapper.Map<Core.Model.SalesOrder>(salesOrder);
 			if (UserExists(salesOrder.BuyerID))
 			{
-				var buyer = await _context.Users.FindAsync(salesOrder.BuyerID);
-				salesOrderCore.Buyer = buyer;
+                var buyer = await _context.Users.FindAsync(salesOrder.BuyerID);
+                //USER REPOSITORY
+                salesOrderCore.Buyer = buyer;
 			}
 			if (UserExists(salesOrder.TraderID))
 			{
 				var trader = await _context.Users.FindAsync(salesOrder.TraderID);
-				salesOrderCore.Trader = trader;
+                //USER REPOSITORY
+                salesOrderCore.Trader = trader;
 			}
 
 
-			_context.SalesOrders.Add(salesOrderCore);
-			await _context.SaveChangesAsync();
+			//_context.SalesOrders.Add(salesOrderCore);
+            await salesOrderRepository.CreateAsync(salesOrderCore);
+			//await _context.SaveChangesAsync();
 
 			return CreatedAtAction("GetSalesOrder", new { id = salesOrder.Id }, salesOrder);
 		}
@@ -143,25 +152,29 @@ namespace EVETrader.Api.Controllers
 				return BadRequest(ModelState);
 			}
 
-			var salesOrder = await _context.SalesOrders.FindAsync(id);
-			if (salesOrder == null)
+            //var salesOrder = await _context.SalesOrders.FindAsync(id);
+            var salesOrder = await salesOrderRepository.GetAsync(id);
+            if (salesOrder == null)
 			{
 				return NotFound();
 			}
 
-			_context.SalesOrders.Remove(salesOrder);
-			await _context.SaveChangesAsync();
-
+            //_context.SalesOrders.Remove(salesOrder);
+            await salesOrderRepository.DeleteAsync(id);
+            //await _context.SaveChangesAsync();
+           
 			return Ok(_mapper.Map<ViewModel.SalesOrder>(salesOrder));
 		}
 
 		private bool SalesOrderExists(int id)
 		{
-			return _context.SalesOrders.Any(e => e.Id == id);
+            return  salesOrderRepository.Any(id);
+			//return _context.SalesOrders.Any(e => e.Id == id);
 		}
 
 		private bool UserExists(int id)
 		{
+            //USER REPOSITORY
 			return _context.Users.Any(e => e.Id == id);
 		}
 	}
