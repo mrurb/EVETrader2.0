@@ -104,63 +104,70 @@ namespace EVETrader.Api.Controllers
 		/// Add items to cart
 		/// </summary>
 		/// <param name="SalesOrderId">SalesOrder ID</param>
-		/// <param name="Items"></param>
+		/// <param name="items"></param>
 		/// <returns></returns>
 
 		// POST: api/ShoppingLists/id
 		[HttpPost("additems/{SalesOrderId}")]
-		public async Task<IActionResult> PostItems([FromRoute] int SalesOrderId, [FromBody] List<Items> Items)
+		public async Task<IActionResult> PostItems([FromRoute] int SalesOrderId, [FromBody] List<Items> items)
 		{
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
 			var salesOrder = await _context.SalesOrders.Include(s => s.ShoppingList).SingleOrDefaultAsync(s => s.Id == SalesOrderId);
-			foreach (var item in Items)
+			foreach (var item in items)
 			{
-				if (salesOrder.ShoppingList.Any(i => i.TypeID == item.TypeId))
+				ShoppingList shoppinglist = null;
+				if (salesOrder.ShoppingList.Any(i => i.TypeId == item.TypeId))
 				{
-					var x = salesOrder.ShoppingList.SingleOrDefault(i => i.TypeID == item.TypeId).Quantity += item.Quantity;
+					shoppinglist = salesOrder.ShoppingList.SingleOrDefault(i => i.TypeId == item.TypeId);
+					shoppinglist.Quantity += item.Quantity;
 				}
 				else
 				{
-					salesOrder.ShoppingList.Add(new ShoppingList() { SalesOrder = salesOrder, TypeID = item.TypeId, Quantity = item.Quantity });
+					shoppinglist = new ShoppingList() { SalesOrder = salesOrder, TypeId = item.TypeId, Quantity = item.Quantity };
+					salesOrder.ShoppingList.Add(shoppinglist);
 				}
 			}
 			await _context.SaveChangesAsync();
-
-			return CreatedAtAction("GetShoppingLists", new { id = SalesOrderId }, salesOrder.ShoppingList);
+			//Todo: needs fixed!!
+			return CreatedAtAction("GetShoppingLists", new { id = 1 }, items);
 		}
 		
 		/// <summary>
 		/// Add items to cart
 		/// </summary>
-		/// <param name="SalesOrderId">SalesOrder ID</param>
+		/// <param name="salesOrderId">SalesOrder ID</param>
 		/// <param name="item"></param>
 		/// <returns></returns>
 
 		// POST: api/ShoppingLists/id
-		[HttpPost("additem/{SalesOrderId}")]
-		public async Task<IActionResult> PostItemTest([FromRoute] int SalesOrderId, [FromBody] Items item)
+		[HttpPost("additem/{salesOrderId}")]
+		public async Task<IActionResult> PostItemTest([FromRoute] int salesOrderId, [FromBody] Items item)
 		{
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
-			var salesOrder = await _context.SalesOrders.Include(s => s.ShoppingList).SingleOrDefaultAsync(s => s.Id == SalesOrderId);
-
-			if (salesOrder.ShoppingList.Any(i => i.TypeID == item.TypeId))
+			var salesOrder = await _context.SalesOrders.Include(s => s.ShoppingList).SingleOrDefaultAsync(s => s.Id == salesOrderId);
+			ShoppingList shoppingList = null;
+			if (salesOrder.ShoppingList.Any(i => i.TypeId == item.TypeId))
 			{
-				var x = salesOrder.ShoppingList.SingleOrDefault(i => i.TypeID == item.TypeId).Quantity += item.Quantity;
+				shoppingList = salesOrder.ShoppingList.SingleOrDefault(i => i.TypeId == item.TypeId);
+				shoppingList.Quantity += item.Quantity;
+
 			}
 			else
 			{
-				salesOrder.ShoppingList.Add(new ShoppingList() { SalesOrder = salesOrder, TypeID = item.TypeId, Quantity = item.Quantity });
+				shoppingList = new ShoppingList() { SalesOrder = salesOrder, TypeId = item.TypeId, Quantity = item.Quantity };
+				salesOrder.ShoppingList.Add(shoppingList);
 			}
 
 			await _context.SaveChangesAsync();
 
-			return CreatedAtAction("GetShoppingLists", new { id = SalesOrderId }, salesOrder.ShoppingList);
+			return CreatedAtAction("GetShoppingLists", new { id = shoppingList.Id}, item);
+			//return CreatedAtAction("GetShoppingLists", new { id = SalesOrderId }, salesOrder.ShoppingList);
 		}
 		/*
         // DELETE: api/ShoppingLists/5

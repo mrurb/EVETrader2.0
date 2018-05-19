@@ -215,7 +215,12 @@ namespace EVETrader.Web.Controllers
         public IActionResult AddItem(int? id)
         {
             ViewBag.SalesOrderId = id;
-            return View();
+			if(id == null)
+			{
+				return NotFound();
+			}
+			
+            return View(new AddItemViewModel() { SalesOrderId = (int)id });
         }
 
         // POST: SalesOrders/AddItem
@@ -223,21 +228,19 @@ namespace EVETrader.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddItem([Bind("Id,Quantity,TypeID")] ShoppingListViewModel shoppingListViewModel)
+        public async Task<IActionResult> AddItem([Bind("Quantity,TypeId,SalesOrderId")] AddItemViewModel addItemView)
         {
             if (ModelState.IsValid)
             {
-                //_context.Add(shoppingListViewModel);
-                //await _context.SaveChangesAsync();
+				ShoppingList shoppingList = new ShoppingList()
+				{
+					Quantity = addItemView.Quantity,
+					TypeID = addItemView.TypeId
+				};
+				await salesOrderRepository.AddItemAsync(shoppingList, addItemView.SalesOrderId);
                 return RedirectToAction(nameof(Index));
             }
-            return View(shoppingListViewModel);
-        }
-
-
-        private bool SalesOrderExists(int id)
-        {
-            return false; //_context.SalesOrders.Any(e => e.Id == id);
+            return View(addItemView);
         }
     }
 }

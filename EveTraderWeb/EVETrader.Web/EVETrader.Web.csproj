@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Compile Remove="Extensions\IEveTraderApiClient.cs" />
+    <Compile Remove="Models\ShoppingListViewModels.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,12 +41,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\EVETrader.Core\EVETrader.Core.csproj" />
     <ProjectReference Include="..\EveTrader.Web.Core\EveTrader.Web.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="IO.Swagger">
-      <HintPath>libs\IO.Swagger.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

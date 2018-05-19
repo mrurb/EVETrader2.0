@@ -17,6 +17,20 @@ namespace EveTrader.Web.Core
 		Task<SalesOrder> GetSalesOrderForCharacterAsync(int characterId);
 		Task<SalesOrder> UpdateAsync(SalesOrder salesOrder);
 		Task<SalesOrder> DeleteAsync(int id);
+		/// <summary>
+		/// Add item to a shopping list
+		/// </summary>
+		/// <param name="shoppingList">item to be added</param>
+		/// <param name="id">Shopping List id</param>
+		/// <returns></returns>
+		Task<ShoppingList> AddItemAsync(ShoppingList shoppingList, int salesOrderId);
+		/// <summary>
+		/// Add multiple items to a shopping list
+		/// </summary>
+		/// <param name="shoppingList">List of items to be added</param>
+		/// <param name="salesOrderId">Shopping list id</param>
+		/// <returns>List of items added</returns>
+		Task<IEnumerable<ShoppingList>> AddItemsAsync(IEnumerable<ShoppingList> shoppingList, int salesOrderId);
 	}
 
 	public class SalesOrderRepository : ISalesOrderRepository
@@ -38,13 +52,11 @@ namespace EveTrader.Web.Core
 			httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 			test.Content = new StringContent(content, Encoding.UTF8, "application/json");
 			var call = await httpClient.SendAsync(test);
-			if (call.StatusCode == System.Net.HttpStatusCode.OK || call.StatusCode == System.Net.HttpStatusCode.Created)
+			if (!call.IsSuccessStatusCode)
 			{
-				return call;
+				throw new Exception(call.StatusCode.ToString());
 			}
-			throw new Exception(call.StatusCode.ToString());
-			
-
+			return call;
 		}
 
 		public async Task<HttpResponseMessage> CallAPiAsync(HttpMethod httpmethod, string url)
@@ -91,6 +103,21 @@ namespace EveTrader.Web.Core
 			var content = JsonConvert.SerializeObject(salesOrder);
 			var response = await CallAPiAsync(HttpMethod.Put, $"/api/SalesOrders/{salesOrder.Id}", content);
 			return (SalesOrder)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(SalesOrder));
+		}
+
+		public async Task<ShoppingList> AddItemAsync(ShoppingList shoppingList, int salesOrderId)
+		{
+			var content = JsonConvert.SerializeObject(shoppingList);
+			var response = await CallAPiAsync(HttpMethod.Post, $"/api/ShoppingLists/additem/{salesOrderId}", content);
+			var result = JsonConvert.DeserializeObject<ShoppingList>(response.Content.ReadAsStringAsync().Result);
+			return result;
+		}
+
+		public async Task<IEnumerable<ShoppingList>> AddItemsAsync(IEnumerable<ShoppingList> shoppingList, int salesOrderId)
+		{
+			var content = JsonConvert.SerializeObject(shoppingList);
+			var response = await CallAPiAsync(HttpMethod.Post, $"/api/ShoppingLists/additems/{salesOrderId}", content);
+			return JsonConvert.DeserializeObject<IEnumerable<ShoppingList>>(response.Content.ReadAsStringAsync().Result);
 		}
 	}
 }
