@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using AutoMapper;
 using EVETrader.Core.Data;
+using EVETrader.Core.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Rewrite;
@@ -32,6 +33,9 @@ namespace EVETrader.Api
         {
 			services.AddAutoMapper();
 			services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("EVETrader.Api")));
+
+            services.AddScoped<ISalesOrderRepository, SalesOrderRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
 			services.AddSwaggerGen(c =>
 			{

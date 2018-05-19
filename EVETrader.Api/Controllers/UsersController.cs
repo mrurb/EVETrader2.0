@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EVETrader.Core.Data;
 using EVETrader.Core.Model;
+using EVETrader.Core.Repositories;
 
 namespace EVETrader.Api.Controllers
 {
@@ -15,17 +16,20 @@ namespace EVETrader.Api.Controllers
     public class UsersController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public UsersController(ApplicationDbContext context)
+        private readonly IUserRepository userRepository;
+        public UsersController(ApplicationDbContext context, IUserRepository userRepository)
         {
+            this.userRepository = userRepository;
             _context = context;
         }
 
         // GET: api/Users
         [HttpGet]
-        public IEnumerable<User> GetUsers()
+        public async Task<IEnumerable<User>> GetUsersAsync()
         {
-            return _context.Users;
+            var user = await userRepository.ListAllAsync();
+            return user;
+            //return _context.Users;
         }
 
         // GET: api/Users/5
@@ -37,8 +41,8 @@ namespace EVETrader.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
-
+            // var user = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
+            var user =await userRepository.GetAsync(id);
             if (user == null)
             {
                 return NotFound();
@@ -61,11 +65,11 @@ namespace EVETrader.Api.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            //_context.Entry(user).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                //await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -91,8 +95,9 @@ namespace EVETrader.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            //_context.Users.Add(user);
+            await userRepository.CreateAsync(user);
+            //await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
@@ -106,14 +111,15 @@ namespace EVETrader.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
+            //var user = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
+            var user = userRepository.DeleteAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
+            //_context.Users.Remove(user);
+            //await _context.SaveChangesAsync();
 
             return Ok(user);
         }
