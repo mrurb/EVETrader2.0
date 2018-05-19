@@ -3,63 +3,88 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 namespace EveTrader.Web.Core
 {
-    public class SalesOrderRepository : ISalesOrderRepository
+	public interface ISalesOrderRepository
+	{
+		Task<IEnumerable<SalesOrder>> ListAllAsync();
+		Task<SalesOrder> AddAsync(SalesOrder salesOrder);
+		Task<SalesOrder> GetAsync(int salesOrderId);
+		Task<SalesOrder> GetAsync(int salesOrderId, int characterId);
+		Task<SalesOrder> UpdateAsync(SalesOrder salesOrder);
+		Task<SalesOrder> DeleteAsync(SalesOrder salesOrder);
+	}
+
+	public class SalesOrderRepository : ISalesOrderRepository
 	{
 		private readonly HttpClient httpClient;
 
 		public SalesOrderRepository(HttpClient httpClient)
 		{
 			this.httpClient = httpClient;
-			httpClient.BaseAddress = new Uri("http://localhost:")
+			httpClient.DefaultRequestHeaders.Clear();
+			httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+			httpClient.BaseAddress = new Uri("http://localhost:56362");
 		}
 
-		public void CallAPi()
-		{
-			httpClient.BaseAddress = new Uri("https://localhost:");
-		}
-
-		public SalesOrder Add(SalesOrder salesOrder)
+		public Task<SalesOrder> AddAsync(SalesOrder salesOrder)
 		{
 			throw new NotImplementedException();
 		}
 
-		public SalesOrder Delete(SalesOrder salesOrder)
+		public async Task<HttpResponseMessage> CallAPiAsync(HttpMethod httpmethod ,string url, string content)
+		{
+
+			HttpRequestMessage test = new HttpRequestMessage(httpmethod, url);
+			test.Content = new StringContent(content);
+			return await httpClient.SendAsync(test);
+
+		}
+
+		public async Task<HttpResponseMessage> CallAPiAsync(HttpMethod httpmethod, string url)
+		{
+
+			HttpRequestMessage test = new HttpRequestMessage(httpmethod, url);
+			return await httpClient.SendAsync(test);
+
+		}
+
+		public Task<SalesOrder> DeleteAsync(SalesOrder salesOrder)
 		{
 			throw new NotImplementedException();
 		}
 
-		public SalesOrder Get(int salesOrderId)
+		public Task<SalesOrder> GetAsync(int salesOrderId)
 		{
 			throw new NotImplementedException();
 		}
 
-		public SalesOrder Get(int salesOrderId, int characterId)
+		public Task<SalesOrder> GetAsync(int salesOrderId, int characterId)
 		{
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<SalesOrder> ListAll()
+		public async Task<IEnumerable<SalesOrder>> ListAll()
 		{
-			httpClient.GetAsync()
+			var response = await CallAPiAsync(HttpMethod.Get, "/api/SalesOrders");
+			var test = (List<SalesOrder>) JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(List<SalesOrder>));
+			return test;
+
 			throw new NotImplementedException();
 		}
 
-		public SalesOrder Update(SalesOrder salesOrder)
+		public Task<IEnumerable<SalesOrder>> ListAllAsync()
 		{
 			throw new NotImplementedException();
 		}
-	}
 
-	interface ISalesOrderRepository
-	{
-		IEnumerable<SalesOrder> ListAll();
-		SalesOrder Add(SalesOrder salesOrder);
-		SalesOrder Get(int salesOrderId);
-		SalesOrder Get(int salesOrderId, int characterId);
-		SalesOrder Update(SalesOrder salesOrder);
-		SalesOrder Delete(SalesOrder salesOrder);
+		public Task<SalesOrder> UpdateAsync(SalesOrder salesOrder)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

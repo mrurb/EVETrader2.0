@@ -17,7 +17,7 @@ namespace IOApiClient.ESI.Api
 		{
 			this.apiClient = apiClient;
 		}
-
+		/*
 		public async Task<ApiResponse<List<int?>>> Categories(string datasource = null, string ifNoneMatch = null)
 		{
 			var localVarPath = "/v1/universe/categories/";
@@ -25,8 +25,8 @@ namespace IOApiClient.ESI.Api
 			var respone = await apiClient.CallApi(null, localVarPath, HttpMethod.Get, null);
 			int statusCode = (int) respone.StatusCode;
 			var test = (List<int?>) JsonConvert.DeserializeObject(respone.Content.ReadAsStringAsync().Result, typeof(List<int>));
-			return new ApiResponse<List<int?>>(statusCode, respone.Headers., test)
+			return new ApiResponse<List<int?>>(statusCode, respone.Headers., test);
 			throw new NotImplementedException();
-		}
+		}*/
 	}
 }

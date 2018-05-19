@@ -26,6 +26,7 @@
     <PackageReference Include="BuildBundlerMinifier" Version="2.7.385" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,7 +39,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\EVETrader.Core\EVETrader.Core.csproj" />
-    <ProjectReference Include="..\ApiClient.ESI\IOApiClient.ESI.csproj" />
+    <ProjectReference Include="..\EveTrader.Web.Core\EveTrader.Web.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
