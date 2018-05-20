@@ -15,6 +15,7 @@ namespace EVETrader.Core.Repositories
         Task<User> UpdateAsync(User user);
         Task<User> CreateAsync(User user);
         Task<User> DeleteAsync(int id);
+        Task<bool> Any(int id);
     }
     public class UserRepository : IUserRepository
     {
@@ -24,6 +25,12 @@ namespace EVETrader.Core.Repositories
         {
             _context = context;
         }
+
+        public async Task<bool> Any(int id)
+        {
+            return  await _context.Users.AnyAsync(u => u.Id == id);
+        }
+
         public async Task<User> CreateAsync(User user)
         {
             await _context.Users.AddAsync(user);

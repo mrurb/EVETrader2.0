@@ -17,13 +17,13 @@ namespace EVETrader.Api.Controllers
 	[Route("api/[controller]")]
 	public class SalesOrdersController : Controller
 	{
-		private readonly ApplicationDbContext _context;
-		private readonly IMapper _mapper;
+        private readonly IUserRepository userRepository;
+        private readonly IMapper _mapper;
         private readonly ISalesOrderRepository salesOrderRepository;
 
-        public SalesOrdersController(ApplicationDbContext context, IMapper mapper, ISalesOrderRepository salesOrderRepository)
+        public SalesOrdersController(IMapper mapper, ISalesOrderRepository salesOrderRepository, IUserRepository userRepository)
 		{
-			_context = context;
+            this.userRepository = userRepository;
 			_mapper = mapper;
             this.salesOrderRepository = salesOrderRepository;
 		}
@@ -119,15 +119,17 @@ namespace EVETrader.Api.Controllers
 			}
 
 			var salesOrderCore = _mapper.Map<Core.Model.SalesOrder>(salesOrder);
-			if (UserExists(salesOrder.BuyerID))
+			if (await UserExists(salesOrder.BuyerID))
 			{
-                var buyer = await _context.Users.FindAsync(salesOrder.BuyerID);
+                //var buyer = await _context.Users.FindAsync(salesOrder.BuyerID);
+                var buyer = await userRepository.GetAsync(salesOrder.BuyerID);
                 //USER REPOSITORY
                 salesOrderCore.Buyer = buyer;
 			}
-			if (UserExists(salesOrder.TraderID))
+			if (await UserExists(salesOrder.TraderID))
 			{
-				var trader = await _context.Users.FindAsync(salesOrder.TraderID);
+                //var trader = await _context.Users.FindAsync(salesOrder.TraderID);
+                var trader = await userRepository.GetAsync(salesOrder.TraderID);
                 //USER REPOSITORY
                 salesOrderCore.Trader = trader;
 			}
@@ -172,10 +174,11 @@ namespace EVETrader.Api.Controllers
 			//return _context.SalesOrders.Any(e => e.Id == id);
 		}
 
-		private bool UserExists(int id)
+		private async Task<bool> UserExists(int id)
 		{
             //USER REPOSITORY
-			return _context.Users.Any(e => e.Id == id);
+            return  await userRepository.Any(id);
+			//return _context.Users.Any(e => e.Id == id);
 		}
 	}
 }
