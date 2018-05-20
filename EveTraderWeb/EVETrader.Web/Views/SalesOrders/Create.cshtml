@@ -12,19 +12,6 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="form-group">
-                <label asp-for="BuyerUsername" class="control-label"></label>
-                <input asp-for="BuyerUsername" class="form-control" />
-                <span asp-validation-for="BuyerUsername" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="TraderUsername" class="control-label"></label>
-                <input asp-for="TraderUsername" class="form-control" />
-                <span asp-validation-for="TraderUsername" class="text-danger"></span>
-            </div>
-
             <div class="form-group">
                 <label asp-for="Destination" class="control-label"></label>
                 <input asp-for="Destination" class="form-control" />

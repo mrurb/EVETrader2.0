@@ -169,7 +169,7 @@ namespace EVETrader.Api.Controllers
 			return CreatedAtAction("GetShoppingLists", new { id = shoppingList.Id}, item);
 			//return CreatedAtAction("GetShoppingLists", new { id = SalesOrderId }, salesOrder.ShoppingList);
 		}
-		/*
+		
         // DELETE: api/ShoppingLists/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteShoppingList([FromRoute] int id)
@@ -190,7 +190,7 @@ namespace EVETrader.Api.Controllers
 
             return Ok(shoppingList);
         }
-		*/
+		
 		private bool ShoppingListExists(int id)
 		{
 			return _context.ShoppingLists.Any(e => e.Id == id);

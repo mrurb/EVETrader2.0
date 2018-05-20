@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
+using EveTrader.Web.Core.Repositories;
 
 namespace EveTrader.Web.Core
 {
@@ -31,84 +32,61 @@ namespace EveTrader.Web.Core
 		/// <param name="salesOrderId">Shopping list id</param>
 		/// <returns>List of items added</returns>
 		Task<IEnumerable<ShoppingList>> AddItemsAsync(IEnumerable<ShoppingList> shoppingList, int salesOrderId);
+		Task<ShoppingList> RemoveItemAsync(int id);
 	}
 
 	public class SalesOrderRepository : ISalesOrderRepository
 	{
-		private readonly HttpClient httpClient;
+		private readonly IApi api;
 
-		public SalesOrderRepository(HttpClient httpClient)
+		public SalesOrderRepository(IApi api)
 		{
-			this.httpClient = httpClient;
-			httpClient.DefaultRequestHeaders.Clear();
-			httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-			httpClient.BaseAddress = new Uri("http://localhost:56362");
+			this.api = api;
 		}
-		public async Task<HttpResponseMessage> CallAPiAsync(HttpMethod httpmethod, string url, string content)
-		{
-
-			HttpRequestMessage test = new HttpRequestMessage(httpmethod, url);
-			httpClient.DefaultRequestHeaders.Clear();
-			httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-			test.Content = new StringContent(content, Encoding.UTF8, "application/json");
-			var call = await httpClient.SendAsync(test);
-			if (!call.IsSuccessStatusCode)
-			{
-				throw new Exception(call.StatusCode.ToString());
-			}
-			return call;
-		}
-
-		public async Task<HttpResponseMessage> CallAPiAsync(HttpMethod httpmethod, string url)
-		{
-
-			HttpRequestMessage test = new HttpRequestMessage(httpmethod, url);
-			return await httpClient.SendAsync(test);
-
-		}
+	
 
 		public async Task<SalesOrder> AddAsync(SalesOrder salesOrder)
 		{
 			var content = JsonConvert.SerializeObject(salesOrder);
-			var response = await CallAPiAsync(HttpMethod.Post, "/api/SalesOrders", content);
+			var response = await api.CallAPiAsync(HttpMethod.Post, "/api/SalesOrders", content);
 			return (SalesOrder)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(SalesOrder));
 		}
 
 		public async Task<SalesOrder> DeleteAsync(int id)
 		{
-			var response = await CallAPiAsync(HttpMethod.Delete, $"/api/SalesOrders/{id}");
+			var response = await api.CallAPiAsync(HttpMethod.Delete, $"/api/SalesOrders/{id}");
 			return (SalesOrder)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(SalesOrder));
 		}
 
 		public async Task<SalesOrder> GetAsync(int id)
 		{
-			var response = await CallAPiAsync(HttpMethod.Get, $"/api/SalesOrders/{id}");
+			var response = await api.CallAPiAsync(HttpMethod.Get, $"/api/SalesOrders/{id}");
 			return (SalesOrder)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(SalesOrder));
 		}
 
 		public async Task<SalesOrder> GetSalesOrderForCharacterAsync(int cid)
 		{
-			var response = await CallAPiAsync(HttpMethod.Get, $"/api/Characters/{cid}/SalesOrders");
+			var response = await api.CallAPiAsync(HttpMethod.Get, $"/api/Characters/{cid}/SalesOrders");
 			return (SalesOrder)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(SalesOrder));
 		}
 
 		public async Task<IEnumerable<SalesOrder>> ListAllAsync()
 		{
-			var response = await CallAPiAsync(HttpMethod.Get, "/api/SalesOrders");
+			var response = await api.CallAPiAsync(HttpMethod.Get, "/api/SalesOrders");
 			return (List<SalesOrder>)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(List<SalesOrder>)); ;
 		}
 
 		public async Task<SalesOrder> UpdateAsync(SalesOrder salesOrder)
 		{
 			var content = JsonConvert.SerializeObject(salesOrder);
-			var response = await CallAPiAsync(HttpMethod.Put, $"/api/SalesOrders/{salesOrder.Id}", content);
+			var response = await api.CallAPiAsync(HttpMethod.Put, $"/api/SalesOrders/{salesOrder.Id}", content);
 			return (SalesOrder)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(SalesOrder));
 		}
 
 		public async Task<ShoppingList> AddItemAsync(ShoppingList shoppingList, int salesOrderId)
 		{
 			var content = JsonConvert.SerializeObject(shoppingList);
-			var response = await CallAPiAsync(HttpMethod.Post, $"/api/ShoppingLists/additem/{salesOrderId}", content);
+			var response = await api.CallAPiAsync(HttpMethod.Post, $"/api/ShoppingLists/additem/{salesOrderId}", content);
 			var result = JsonConvert.DeserializeObject<ShoppingList>(response.Content.ReadAsStringAsync().Result);
 			return result;
 		}
@@ -116,8 +94,14 @@ namespace EveTrader.Web.Core
 		public async Task<IEnumerable<ShoppingList>> AddItemsAsync(IEnumerable<ShoppingList> shoppingList, int salesOrderId)
 		{
 			var content = JsonConvert.SerializeObject(shoppingList);
-			var response = await CallAPiAsync(HttpMethod.Post, $"/api/ShoppingLists/additems/{salesOrderId}", content);
+			var response = await api.CallAPiAsync(HttpMethod.Post, $"/api/ShoppingLists/additems/{salesOrderId}", content);
 			return JsonConvert.DeserializeObject<IEnumerable<ShoppingList>>(response.Content.ReadAsStringAsync().Result);
+		}
+
+		public async Task<ShoppingList> RemoveItemAsync(int id)
+		{
+			var response = await api.CallAPiAsync(HttpMethod.Delete, $"/api/ShoppingLists/{id}");
+			return JsonConvert.DeserializeObject<ShoppingList>(response.Content.ReadAsStringAsync().Result);
 		}
 	}
 }

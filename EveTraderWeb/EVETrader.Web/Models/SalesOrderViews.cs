@@ -46,7 +46,7 @@ namespace EVETrader.Web.Models
         [DisplayName("Trader")]
         public int TraderUsername { get; set; }
         [DisplayName("Buyer")]
-        public int BuyerUsername { get; set; }
+        public string BuyerUsername { get; set; }
         [DisplayName("Destination")]
         public int Destination { get; set; }
         [DisplayName("Price")]

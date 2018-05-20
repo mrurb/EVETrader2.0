@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using EVETrader.Web.Extensions;
 using System.Net.Http;
 using EveTrader.Web.Core;
+using EveTrader.Web.Core.Repositories;
 
 namespace EVETrader.Web
 {
@@ -137,7 +138,10 @@ namespace EVETrader.Web
 			});
 			services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("EVETrader.Web")));
 			services.AddScoped<ISalesOrderRepository, SalesOrderRepository>();
+			services.AddScoped<IUserRepository, UserRepository>();
+			services.AddScoped<IShoppingListRepository, ShoppingListRepository>();
 			services.AddScoped<HttpClient>();
+			services.AddScoped<IApi, API>();
 
 			services.AddMvc();
         }

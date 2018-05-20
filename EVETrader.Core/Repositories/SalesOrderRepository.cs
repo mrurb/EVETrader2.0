@@ -34,7 +34,9 @@ namespace EVETrader.Core.Repositories
 
         public async Task<SalesOrder> CreateAsync(SalesOrder salesOrder)
         {
-           await _context.SalesOrders.AddAsync(salesOrder);
+			_context.Entry(salesOrder.Buyer).State = EntityState.Unchanged;
+			salesOrder.Trader = null;
+			await _context.SalesOrders.AddAsync(salesOrder);
            await _context.SaveChangesAsync();
             return salesOrder;
         }
