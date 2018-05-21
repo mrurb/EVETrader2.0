@@ -17,25 +17,25 @@ namespace EVETrader.Api.Controllers
 	[Route("api/[controller]")]
 	public class SalesOrdersController : Controller
 	{
-        private readonly IUserRepository userRepository;
-        private readonly IMapper _mapper;
-        private readonly ISalesOrderRepository salesOrderRepository;
+		private readonly IUserRepository userRepository;
+		private readonly IMapper _mapper;
+		private readonly ISalesOrderRepository salesOrderRepository;
 
-        public SalesOrdersController(IMapper mapper, ISalesOrderRepository salesOrderRepository, IUserRepository userRepository)
+		public SalesOrdersController(IMapper mapper, ISalesOrderRepository salesOrderRepository, IUserRepository userRepository)
 		{
-            this.userRepository = userRepository;
+			this.userRepository = userRepository;
 			_mapper = mapper;
-            this.salesOrderRepository = salesOrderRepository;
+			this.salesOrderRepository = salesOrderRepository;
 		}
 		/// <summary>
 		/// Gets all salesOrders.
 		/// </summary>
 		// GET: api/SalesOrders
-		[HttpGet]
+		[HttpGet("")]
 		public async Task<IEnumerable<ViewModel.SalesOrder>> GetSalesOrdersAsync()
 		{
 			//var salesOrder = _context.SalesOrders.Include(u => u.Buyer).Include(u => u.Trader);
-            var salesOrder = await salesOrderRepository.ListAllAsync();
+			var salesOrder = await salesOrderRepository.ListAllAsync();
 			return _mapper.Map<List<ViewModel.SalesOrder>>(salesOrder);
 		}
 
@@ -53,7 +53,6 @@ namespace EVETrader.Api.Controllers
 				return BadRequest(ModelState);
 			}
 
-            //var salesOrder = await _context.SalesOrders.Include(u => u.Buyer).Include(u => u.Trader).SingleOrDefaultAsync(s => s.Id == id);
             var salesOrder = await salesOrderRepository.GetAsync(id);
 			if (salesOrder == null)
 			{

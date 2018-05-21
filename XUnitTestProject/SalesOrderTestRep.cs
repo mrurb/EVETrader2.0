@@ -7,10 +7,10 @@ using System.Linq;
 
 namespace XUnitTestProject
 {
-    public class SalesOrderTestRep : ISalesOrderRepository
+    public class SalesOrderTestRepository : ISalesOrderRepository
     {
         List<SalesOrder> objList;
-        public SalesOrderTestRep()
+        public SalesOrderTestRepository()
         {
             objList = new List<SalesOrder>()
             {
@@ -75,7 +75,13 @@ namespace XUnitTestProject
                 },
             };
         }
-        public bool Any(int id)
+
+		public async Task<List<EVETrader.Core.Model.SalesOrder>> ListAllAsync()
+		{
+			return objList;
+		}
+
+		public bool Any(int id)
         {
             throw new NotImplementedException();
         }
@@ -101,10 +107,7 @@ namespace XUnitTestProject
             return objList.Find(u => u.Id == id);
         }
 
-        public async Task<List<EVETrader.Core.Model.SalesOrder>> ListAllAsync()
-        {
-            return objList;
-        }
+        
 
         public async Task<EVETrader.Core.Model.SalesOrder> UpdateAsync(EVETrader.Core.Model.SalesOrder salesOrder)
         {

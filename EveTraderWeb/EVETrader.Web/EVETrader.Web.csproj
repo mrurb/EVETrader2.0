@@ -39,7 +39,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\EVETrader.Core\EVETrader.Core.csproj" />
     <ProjectReference Include="..\EveTrader.Web.Core\EveTrader.Web.Core.csproj" />
   </ItemGroup>
 

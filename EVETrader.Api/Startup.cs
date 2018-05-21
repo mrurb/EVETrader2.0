@@ -56,8 +56,8 @@ namespace EVETrader.Api
 				.AddRedirectToHttps();
 			
 			app.UseRewriter(options);
-
 			*/
+			
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

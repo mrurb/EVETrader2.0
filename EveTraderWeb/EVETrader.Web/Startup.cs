@@ -9,7 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authentication.OAuth;
-using EVETrader.Core.Data;
 using Microsoft.EntityFrameworkCore;
 using EVETrader.Web.Extensions;
 using System.Net.Http;
@@ -136,7 +135,6 @@ namespace EVETrader.Web
 				};
 
 			});
-			services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("EVETrader.Web")));
 			services.AddScoped<ISalesOrderRepository, SalesOrderRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
 			services.AddScoped<IShoppingListRepository, ShoppingListRepository>();

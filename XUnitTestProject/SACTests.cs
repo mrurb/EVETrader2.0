@@ -29,7 +29,7 @@ namespace XUnitTestProject
         public void TestSACGetSalesOrder()
         {
             var userTestRep = new Mock<IUserRepository>();
-            var salesOrderTestRep = new SalesOrderTestRep();
+            var salesOrderTestRep = new SalesOrderTestRepository();
 
             SalesOrdersController obj = new SalesOrdersController(autoMapper, salesOrderTestRep, userTestRep.Object);
 
@@ -49,7 +49,7 @@ namespace XUnitTestProject
         public void TestSACDeleteSalesOrder()
         {
             var userTestRep = new Mock<IUserRepository>();
-            var salesOrderTestRep = new SalesOrderTestRep();
+            var salesOrderTestRep = new SalesOrderTestRepository();
 
             SalesOrdersController obj = new SalesOrdersController(autoMapper, salesOrderTestRep, userTestRep.Object);
 
@@ -74,7 +74,7 @@ namespace XUnitTestProject
         public void TestSACGetAllSaleOrders()
         {
             var userTestRep = new Mock<IUserRepository>();
-            var salesOrderTestRep = new SalesOrderTestRep();
+            var salesOrderTestRep = new SalesOrderTestRepository();
 
             SalesOrdersController obj = new SalesOrdersController(autoMapper, salesOrderTestRep, userTestRep.Object);
 
@@ -86,7 +86,7 @@ namespace XUnitTestProject
         public void TestSACUpdate()
         {
             var userTestRep = new Mock<IUserRepository>();
-            var salesOrderTestRep = new SalesOrderTestRep();
+            var salesOrderTestRep = new SalesOrderTestRepository();
 
             SalesOrdersController obj = new SalesOrdersController(autoMapper, salesOrderTestRep, userTestRep.Object);
 
@@ -109,7 +109,7 @@ namespace XUnitTestProject
         public async void TestSACCreate()
         {
             var userTestRep = new Mock<IUserRepository>();
-            var salesOrderTestRep = new SalesOrderTestRep();
+            var salesOrderTestRep = new SalesOrderTestRepository();
 
             SalesOrdersController obj = new SalesOrdersController(autoMapper, salesOrderTestRep, userTestRep.Object);
 
