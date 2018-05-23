@@ -8,12 +8,13 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace EVETrader.Web.Migrations
+namespace EVETrader.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180523083904_salorderUpdated")]
+    partial class salorderUpdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,6 +29,8 @@ namespace EVETrader.Web.Migrations
                     b.Property<int?>("BuyerId");
 
                     b.Property<int>("Destination");
+
+                    b.Property<bool>("Finished");
 
                     b.Property<bool>("Published");
 
@@ -55,7 +58,7 @@ namespace EVETrader.Web.Migrations
 
                     b.Property<int?>("SalesOrderId");
 
-                    b.Property<int>("TypeID");
+                    b.Property<int>("TypeId");
 
                     b.HasKey("Id");
 

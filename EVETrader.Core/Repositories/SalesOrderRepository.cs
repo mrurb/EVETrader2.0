@@ -64,7 +64,9 @@ namespace EVETrader.Core.Repositories
 
         public async Task<SalesOrder> UpdateAsync(SalesOrder salesOrder)
         {
-            _context.Entry(salesOrder).State = EntityState.Modified;
+			_context.SalesOrders.Attach(salesOrder);
+			var entry = _context.Entry(salesOrder);
+			entry.State = EntityState.Modified;
 
             await  _context.SaveChangesAsync();
 

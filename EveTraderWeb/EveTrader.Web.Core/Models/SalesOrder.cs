@@ -10,5 +10,6 @@ namespace EveTrader.Web.Core.Models
 		public int Destination { get; set; }
 		public double Tip { get; set; }
 		public bool Published { get; set; }
+		public bool Finished { get; set; }
 	}
 }

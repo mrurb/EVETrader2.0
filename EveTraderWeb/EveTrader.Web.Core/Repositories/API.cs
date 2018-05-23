@@ -22,19 +22,17 @@ namespace EveTrader.Web.Core.Repositories
 		public API(HttpClient httpClient)
 		{
 			this.httpClient = httpClient;
-			httpClient.DefaultRequestHeaders.Clear();
-			httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 			httpClient.BaseAddress = new Uri("http://localhost:56362");
 		}
 
 		public async Task<HttpResponseMessage> CallAPiAsync(HttpMethod httpmethod, string url, string content)
 		{
 
-			HttpRequestMessage test = new HttpRequestMessage(httpmethod, url);
+			HttpRequestMessage requestMessage = new HttpRequestMessage(httpmethod, url);
 			httpClient.DefaultRequestHeaders.Clear();
 			httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-			test.Content = new StringContent(content, Encoding.UTF8, "application/json");
-			var call = await httpClient.SendAsync(test);
+			requestMessage.Content = new StringContent(content, Encoding.UTF8, "application/json");
+			var call = await httpClient.SendAsync(requestMessage);
 			if (!call.IsSuccessStatusCode)
 			{
 				throw new Exception(call.StatusCode.ToString());
@@ -44,10 +42,10 @@ namespace EveTrader.Web.Core.Repositories
 
 		public async Task<HttpResponseMessage> CallAPiAsync(HttpMethod httpmethod, string url)
 		{
-
+			httpClient.DefaultRequestHeaders.Clear();
+			httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 			HttpRequestMessage test = new HttpRequestMessage(httpmethod, url);
 			return await httpClient.SendAsync(test);
-
 		}
 	}
 }

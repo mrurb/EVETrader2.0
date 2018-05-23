@@ -33,6 +33,10 @@ namespace EveTrader.Web.Core
 		/// <returns>List of items added</returns>
 		Task<IEnumerable<ShoppingList>> AddItemsAsync(IEnumerable<ShoppingList> shoppingList, int salesOrderId);
 		Task<ShoppingList> RemoveItemAsync(int id);
+		void PublishAsync(int id);
+		void FinishAsync(int id);
+		void SetTraderAsync(int id, int cid);
+
 	}
 
 	public class SalesOrderRepository : ISalesOrderRepository
@@ -73,7 +77,7 @@ namespace EveTrader.Web.Core
 		public async Task<IEnumerable<SalesOrder>> ListAllAsync()
 		{
 			var response = await api.CallAPiAsync(HttpMethod.Get, "/api/SalesOrders");
-			return (List<SalesOrder>)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(List<SalesOrder>)); ;
+			return (List<SalesOrder>)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(List<SalesOrder>));
 		}
 
 		public async Task<SalesOrder> UpdateAsync(SalesOrder salesOrder)
@@ -103,5 +107,21 @@ namespace EveTrader.Web.Core
 			var response = await api.CallAPiAsync(HttpMethod.Delete, $"/api/ShoppingLists/{id}");
 			return JsonConvert.DeserializeObject<ShoppingList>(response.Content.ReadAsStringAsync().Result);
 		}
+		
+		public async void PublishAsync(int id)
+		{
+			await api.CallAPiAsync(HttpMethod.Options, $"/api/SalesOrders/{id}/publish");
+		}
+
+		public async void FinishAsync(int id)
+		{
+			var response = await api.CallAPiAsync(HttpMethod.Options, $"/api/SalesOrders/{id}/finish");
+		}
+
+		public async void SetTraderAsync(int id, int cid)
+		{
+			var response = await api.CallAPiAsync(HttpMethod.Options, $"/api/SalesOrders/{id}/settrader/{cid}");
+		}
+
 	}
 }

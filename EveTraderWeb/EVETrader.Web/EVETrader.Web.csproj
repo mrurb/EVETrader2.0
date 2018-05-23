@@ -35,10 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Authentication\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\EveTrader.Web.Core\EveTrader.Web.Core.csproj" />
   </ItemGroup>
 

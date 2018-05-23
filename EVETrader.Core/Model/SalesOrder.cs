@@ -13,6 +13,7 @@ namespace EVETrader.Core.Model
 		public double estimatedPrice { get; set; }
 		public double Tip { get; set; }
 		public bool Published { get; set; }
+		public bool Finished { get; set; }
 		public List<ShoppingList> ShoppingList { get; set; }
 	}
 }

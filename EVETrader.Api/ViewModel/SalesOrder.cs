@@ -13,5 +13,6 @@ namespace EVETrader.Api.ViewModel
 		public int Destination { get; set; }
 		public double Tip { get; set; }
 		public bool Published { get; set; }
+		public bool Finished { get; set; }
 	}
 }

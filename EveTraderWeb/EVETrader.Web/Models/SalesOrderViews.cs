@@ -21,8 +21,9 @@ namespace EVETrader.Web.Models
         [DisplayName("Tip")]
         public double Tip { get; set; }
         public bool Published { get; set; } //hidden
-        
-    }
+		public bool Finished { get; set; }
+
+	}
 
     public class SalesOrderCreateView
     {
@@ -55,8 +56,9 @@ namespace EVETrader.Web.Models
         public int Tip { get; set; }
         [DisplayName("Published")]
         public bool Published { get; set; }
+		public bool Finished { get; set; }
 
-        public List<ShoppingListViewModel> ShoppingList { get; set; }
+		public List<ShoppingListViewModel> ShoppingList { get; set; }
     }
 
     public class SalesOrderUpdateView

@@ -91,7 +91,7 @@ namespace EVETrader.Web.Controllers
 		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create([Bind("Destination,Tip")] SalesOrderCreateView SalesOrderView)
+		public async Task<IActionResult> Create([Bind("Destination,Tip")] SalesOrderCreateView salesOrderView)
 		{
 			if (ModelState.IsValid)
 			{
@@ -102,13 +102,13 @@ namespace EVETrader.Web.Controllers
 				{
 					TraderID = 0,
 					BuyerID = Int32.Parse(character_id),
-					Destination = SalesOrderView.Destination,
-					Tip = SalesOrderView.Tip
+					Destination = salesOrderView.Destination,
+					Tip = salesOrderView.Tip
 				};
 				var response = await salesOrderRepository.AddAsync(salesOrder);
 				return RedirectToAction(nameof(Index));
 			}
-			return View(SalesOrderView);
+			return View(salesOrderView);
 		}
 
 		// GET: SalesOrders/Edit/5
@@ -237,6 +237,13 @@ namespace EVETrader.Web.Controllers
 			}
 			return View(addItemView);
 		}
+
+		public IActionResult Publish(int id)
+		{
+			salesOrderRepository.PublishAsync(id);
+			return RedirectToAction(nameof(Details), new { id = id });
+		}
+
 
 	
 		public async Task<IActionResult> RemoveItem(int? salesOrderId, int? id)

@@ -29,6 +29,8 @@ namespace EVETrader.Api.Migrations
 
                     b.Property<int>("Destination");
 
+                    b.Property<bool>("Finished");
+
                     b.Property<bool>("Published");
 
                     b.Property<double>("Tip");
@@ -55,7 +57,7 @@ namespace EVETrader.Api.Migrations
 
                     b.Property<int?>("SalesOrderId");
 
-                    b.Property<int>("TypeID");
+                    b.Property<int>("TypeId");
 
                     b.HasKey("Id");
 

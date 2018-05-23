@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace EVETrader.Web.Controllers
@@ -29,9 +30,13 @@ namespace EVETrader.Web.Controllers
 
 
 		[HttpGet("~/signout"), HttpPost("~/signout")]
-		public IActionResult SigOut()
+		public IActionResult SignOut()
 		{
-			return SignOut(new AuthenticationProperties { RedirectUri = "/" }, CookieAuthenticationDefaults.AuthenticationScheme);
+			HttpContext.SignOutAsync(
+				CookieAuthenticationDefaults.AuthenticationScheme, 
+				new AuthenticationProperties { RedirectUri = "/" }
+				);
+			return RedirectToAction("index", "home");
 		}
 	}
 }

@@ -36,22 +36,22 @@ namespace EVETrader.Web
 			{
 				options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 			})
-
 			.AddCookie(options =>
 			{
-				options.LoginPath = "/login";
-				options.LogoutPath = "/logout";
+				options.LoginPath = "/signin";
+				options.LogoutPath = "/signout";
 				options.SlidingExpiration = true;
 				options.ExpireTimeSpan = TimeSpan.FromDays(7);
 				options.Cookie.Expiration = TimeSpan.FromDays(7);
 			})
-
 			.AddEVEOnline(options =>
 			{
 				options.SaveTokens = true;
 				options.ClientId = Configuration.GetSection("EveOnline")["ClientId"];
 				options.ClientSecret = Configuration.GetSection("EveOnline")["ClientSecret"];
+				#region Scopes
 				options.Scope.Add("esi-alliances.read_contacts.v1");
+				#region Rest of scopes
 				options.Scope.Add("esi-assets.read_assets.v1");
 				options.Scope.Add("esi-assets.read_corporation_assets.v1");
 				options.Scope.Add("esi-bookmarks.read_character_bookmarks.v1");
@@ -120,7 +120,8 @@ namespace EVETrader.Web
 				options.Scope.Add("esi-universe.read_structures.v1");
 				options.Scope.Add("esi-wallet.read_character_wallet.v1");
 				options.Scope.Add("esi-wallet.read_corporation_wallets.v1");
-
+				#endregion
+				#endregion
 				options.Events = new OAuthEvents()
 				{
 					
@@ -130,11 +131,12 @@ namespace EVETrader.Web
 						context.Properties.ExpiresUtc = DateTimeOffset.UtcNow.AddDays(7);
 						return Task.FromResult(0);
 					}
-
-					
 				};
 
 			});
+
+
+
 			services.AddScoped<ISalesOrderRepository, SalesOrderRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
 			services.AddScoped<IShoppingListRepository, ShoppingListRepository>();
@@ -144,7 +146,7 @@ namespace EVETrader.Web
 			services.AddMvc();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline./////////////////////////////////////////////////////////////////////////////////////////
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())

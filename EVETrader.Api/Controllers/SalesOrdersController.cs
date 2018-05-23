@@ -34,7 +34,6 @@ namespace EVETrader.Api.Controllers
 		[HttpGet("")]
 		public async Task<IEnumerable<ViewModel.SalesOrder>> GetSalesOrdersAsync()
 		{
-			//var salesOrder = _context.SalesOrders.Include(u => u.Buyer).Include(u => u.Trader);
 			var salesOrder = await salesOrderRepository.ListAllAsync();
 			return _mapper.Map<List<ViewModel.SalesOrder>>(salesOrder);
 		}
@@ -164,6 +163,40 @@ namespace EVETrader.Api.Controllers
             await salesOrderRepository.DeleteAsync(id);
             //await _context.SaveChangesAsync();
            
+			return Ok(_mapper.Map<ViewModel.SalesOrder>(salesOrder));
+		}
+
+		[HttpOptions("{id}/publish")]
+		public async Task<IActionResult> PublishOrder([FromRoute]int id)
+		{
+			var salesOrder = await salesOrderRepository.GetAsync(id);
+			salesOrder.Published = true;
+			await salesOrderRepository.UpdateAsync(salesOrder);
+
+			return Ok(_mapper.Map<ViewModel.SalesOrder>(salesOrder));
+		}
+		
+		[HttpOptions("{id}/finish")]
+		public async Task<IActionResult> FinishOrder([FromRoute]int id)
+		{
+			var salesOrder = await salesOrderRepository.GetAsync(id);
+			salesOrder.Finished = true;
+			await salesOrderRepository.UpdateAsync(salesOrder);
+			return Ok(_mapper.Map<ViewModel.SalesOrder>(salesOrder));
+		}
+		/// <summary>
+		/// set trader on order
+		/// </summary>
+		/// <param name="id">Sales Order ID</param>
+		/// <param name="cid">Character id</param>
+		/// <returns>Sales order</returns>
+		[HttpOptions("{id}/settrader/{cid}")]
+		public async Task<IActionResult> SetTrader([FromRoute]int id, [FromRoute] int cid)
+		{
+			var salesOrder = await salesOrderRepository.GetAsync(id);
+			var trader = await userRepository.GetAsync(cid);
+			salesOrder.Trader = trader;
+			await salesOrderRepository.UpdateAsync(salesOrder);
 			return Ok(_mapper.Map<ViewModel.SalesOrder>(salesOrder));
 		}
 
