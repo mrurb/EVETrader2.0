@@ -25,7 +25,7 @@ namespace EVETrader.Api.Controllers
 		}
 
 		/// <summary>
-		/// Gets all salesOrders.
+		/// Gets all shoppingslists.
 		/// </summary>
 		// GET: api/SalesOrders
 		[HttpGet]
@@ -101,7 +101,7 @@ namespace EVETrader.Api.Controllers
         }
 		*/
 		/// <summary>
-		/// Add items to cart
+		/// Add multiple items to cart
 		/// </summary>
 		/// <param name="SalesOrderId">SalesOrder ID</param>
 		/// <param name="items"></param>
@@ -136,7 +136,7 @@ namespace EVETrader.Api.Controllers
 		}
 		
 		/// <summary>
-		/// Add items to cart
+		/// Add single item to cart
 		/// </summary>
 		/// <param name="salesOrderId">SalesOrder ID</param>
 		/// <param name="item"></param>

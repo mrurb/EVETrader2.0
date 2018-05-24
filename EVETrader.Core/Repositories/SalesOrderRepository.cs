@@ -43,7 +43,7 @@ namespace EVETrader.Core.Repositories
 
         public async Task<SalesOrder> DeleteAsync(int id)
         {
-            var salesOrder = await _context.SalesOrders.FindAsync(id);
+            var salesOrder = await _context.SalesOrders.Include(s => s.ShoppingList).SingleOrDefaultAsync(s => s.Id == id);
             _context.SalesOrders.Remove(salesOrder);
             await _context.SaveChangesAsync();
 

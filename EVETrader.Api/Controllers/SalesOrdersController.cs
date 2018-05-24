@@ -62,7 +62,7 @@ namespace EVETrader.Api.Controllers
 		}
 
 		/// <summary>
-		/// Update salesorder
+		/// Update salesorder - Not working
 		/// </summary>
 		/// <param name="id">Salesorder id</param>
 		/// <param name="salesOrder">SalesOrder</param>
@@ -80,7 +80,7 @@ namespace EVETrader.Api.Controllers
 				return BadRequest();
 			}
 			var salesOrderCore = _mapper.Map<Core.Model.SalesOrder>(salesOrder);
-            await salesOrderRepository.UpdateAsync(salesOrderCore);
+            var response = await salesOrderRepository.UpdateAsync(salesOrderCore);
             //_context.Entry(salesOrderCore).State = EntityState.Modified;
 
             /*
@@ -100,7 +100,7 @@ namespace EVETrader.Api.Controllers
 				}
 			}
             */
-			return NoContent();
+			return Ok(salesOrder);
 		}
 
 		/// <summary>
@@ -124,14 +124,16 @@ namespace EVETrader.Api.Controllers
                 //USER REPOSITORY
                 salesOrderCore.Buyer = buyer;
 			}
+			/*
 			if (await UserExists(salesOrder.TraderID))
 			{
                 //var trader = await _context.Users.FindAsync(salesOrder.TraderID);
                 var trader = await userRepository.GetAsync(salesOrder.TraderID);
                 //USER REPOSITORY
                 salesOrderCore.Trader = trader;
-			}
-
+			}*/
+			salesOrderCore.Trader = null;
+			salesOrder.TraderID = 0;
 
 			//_context.SalesOrders.Add(salesOrderCore);
             await salesOrderRepository.CreateAsync(salesOrderCore);
