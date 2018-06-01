@@ -37,71 +37,86 @@ namespace EveTrader.Web.Core
 
 	public class SalesOrderRepository : ISalesOrderRepository
 	{
-		private readonly IApi api;
 
-		public SalesOrderRepository(IApi api)
+		public EVETraderClient ETAClient { get; }
+
+		public SalesOrderRepository(EVETraderClient eTAclient)
 		{
-			this.api = api;
+			ETAClient = eTAclient;
 		}
 	
 
 		public async Task<SalesOrder> AddAsync(SalesOrder salesOrder)
 		{
 			var content = JsonConvert.SerializeObject(salesOrder);
-			var response = await api.CallAPiAsync(HttpMethod.Post, "/api/SalesOrders", content);
-			return (SalesOrder)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(SalesOrder));
+			//var response = await api.CallAPiAsync(HttpMethod.Post, "/api/SalesOrders", content);
+			var response = await ETAClient.Client.PostAsJsonAsync("/api/SalesOrders", salesOrder);
+			return await Deserialize<SalesOrder>.DeserializeTAsync(response);
+			//return (SalesOrder)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(SalesOrder));
 		}
 
 		public async Task<SalesOrder> DeleteAsync(int id)
 		{
-			var response = await api.CallAPiAsync(HttpMethod.Delete, $"/api/SalesOrders/{id}");
-			return (SalesOrder)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(SalesOrder));
+			//var response = await api.CallAPiAsync(HttpMethod.Delete, $"/api/SalesOrders/{id}");
+			var response = await ETAClient.Client.DeleteAsync($"/api/SalesOrders/{id}");
+			//return (SalesOrder)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(SalesOrder));
+			return await Deserialize<SalesOrder>.DeserializeTAsync(response);
 		}
 
 		public async Task<SalesOrder> GetAsync(int id)
 		{
-			var response = await api.CallAPiAsync(HttpMethod.Get, $"/api/SalesOrders/{id}");
-			return (SalesOrder)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(SalesOrder));
+			//var response = await api.CallAPiAsync(HttpMethod.Get, $"/api/SalesOrders/{id}");
+			var response = await ETAClient.Client.GetAsync($"/api/SalesOrders/{id}");
+			//return (SalesOrder)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(SalesOrder));
+			return await Deserialize<SalesOrder>.DeserializeTAsync(response);
 		}
 
 		public async Task<SalesOrder> GetSalesOrderForCharacterAsync(int cid)
 		{
-			var response = await api.CallAPiAsync(HttpMethod.Get, $"/api/Characters/{cid}/SalesOrders");
-			return (SalesOrder)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(SalesOrder));
+			//var response = await api.CallAPiAsync(HttpMethod.Get, $"/api/Characters/{cid}/SalesOrders");
+			var response = await ETAClient.Client.GetAsync($"/api/Characters/{cid}/SalesOrders");
+			//return (SalesOrder)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(SalesOrder));
+			return await Deserialize<SalesOrder>.DeserializeTAsync(response);
 		}
 
 		public async Task<IEnumerable<SalesOrder>> ListAllAsync()
 		{
-			var response = await api.CallAPiAsync(HttpMethod.Get, "/api/SalesOrders");
-			return (List<SalesOrder>)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(List<SalesOrder>)); ;
+			//var response = await api.CallAPiAsync(HttpMethod.Get, "/api/SalesOrders");
+			var response = await ETAClient.Client.GetAsync("/api/SalesOrders");
+			//return (List<SalesOrder>)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(List<SalesOrder>));
+			return await Deserialize<List<SalesOrder>>.DeserializeTAsync(response);
 		}
 
 		public async Task<SalesOrder> UpdateAsync(SalesOrder salesOrder)
 		{
-			var content = JsonConvert.SerializeObject(salesOrder);
-			var response = await api.CallAPiAsync(HttpMethod.Put, $"/api/SalesOrders/{salesOrder.Id}", content);
-			return (SalesOrder)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(SalesOrder));
+			//var content = JsonConvert.SerializeObject(salesOrder);
+			//var response = await api.CallAPiAsync(HttpMethod.Put, $"/api/SalesOrders/{salesOrder.Id}", content);
+			var response = await ETAClient.Client.PutAsJsonAsync($"/api/SalesOrders/{salesOrder.Id}", salesOrder);
+			return await Deserialize<SalesOrder>.DeserializeTAsync(response);
 		}
 
 		public async Task<ShoppingList> AddItemAsync(ShoppingList shoppingList, int salesOrderId)
 		{
-			var content = JsonConvert.SerializeObject(shoppingList);
-			var response = await api.CallAPiAsync(HttpMethod.Post, $"/api/ShoppingLists/additem/{salesOrderId}", content);
-			var result = JsonConvert.DeserializeObject<ShoppingList>(response.Content.ReadAsStringAsync().Result);
-			return result;
+			//var content = JsonConvert.SerializeObject(shoppingList);
+			//var response = await api.CallAPiAsync(HttpMethod.Post, $"/api/ShoppingLists/additem/{salesOrderId}", content);
+			var response = await ETAClient.Client.PostAsJsonAsync($"/api/ShoppingLists/additem/{salesOrderId}", shoppingList);
+			//var result = JsonConvert.DeserializeObject<ShoppingList>(response.Content.ReadAsStringAsync().Result);
+			return await Deserialize<ShoppingList>.DeserializeTAsync(response);
 		}
 
 		public async Task<IEnumerable<ShoppingList>> AddItemsAsync(IEnumerable<ShoppingList> shoppingList, int salesOrderId)
 		{
-			var content = JsonConvert.SerializeObject(shoppingList);
-			var response = await api.CallAPiAsync(HttpMethod.Post, $"/api/ShoppingLists/additems/{salesOrderId}", content);
-			return JsonConvert.DeserializeObject<IEnumerable<ShoppingList>>(response.Content.ReadAsStringAsync().Result);
+			//var content = JsonConvert.SerializeObject(shoppingList);
+			//var response = await api.CallAPiAsync(HttpMethod.Post, $"/api/ShoppingLists/additems/{salesOrderId}", content);
+			var response = await ETAClient.Client.PostAsJsonAsync($"/api/ShoppingLists/additems/{salesOrderId}", shoppingList);
+			return await Deserialize<IEnumerable<ShoppingList>>.DeserializeTAsync(response);
 		}
 
 		public async Task<ShoppingList> RemoveItemAsync(int id)
 		{
-			var response = await api.CallAPiAsync(HttpMethod.Delete, $"/api/ShoppingLists/{id}");
-			return JsonConvert.DeserializeObject<ShoppingList>(response.Content.ReadAsStringAsync().Result);
+			//var response = await api.CallAPiAsync(HttpMethod.Delete, $"/api/ShoppingLists/{id}");
+			var response = await ETAClient.Client.DeleteAsync($"/api/ShoppingLists/{id}");
+			return await Deserialize<ShoppingList>.DeserializeTAsync(response);
 		}
 	}
 }

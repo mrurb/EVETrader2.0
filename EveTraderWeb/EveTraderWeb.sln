@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EVETrader.Web", "EVETrader.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EveTrader.Web.Core", "EveTrader.Web.Core\EveTrader.Web.Core.csproj", "{3E02CE8A-5BAE-4C7B-9866-80B6741154B5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EVETrader.Web2", "EVETrader.Web2\EVETrader.Web2.csproj", "{4BBC6506-AC6F-4E98-86AD-F7D0021DA39D}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{699507F8-E9D4-49C5-8257-F88DA628D1C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{3E02CE8A-5BAE-4C7B-9866-80B6741154B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E02CE8A-5BAE-4C7B-9866-80B6741154B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E02CE8A-5BAE-4C7B-9866-80B6741154B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BBC6506-AC6F-4E98-86AD-F7D0021DA39D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BBC6506-AC6F-4E98-86AD-F7D0021DA39D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BBC6506-AC6F-4E98-86AD-F7D0021DA39D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BBC6506-AC6F-4E98-86AD-F7D0021DA39D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{699507F8-E9D4-49C5-8257-F88DA628D1C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{699507F8-E9D4-49C5-8257-F88DA628D1C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{699507F8-E9D4-49C5-8257-F88DA628D1C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{699507F8-E9D4-49C5-8257-F88DA628D1C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

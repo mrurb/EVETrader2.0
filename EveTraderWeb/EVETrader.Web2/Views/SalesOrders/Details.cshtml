@@ -1,0 +1,52 @@
+﻿@model EVETrader.Web.Models.SalesOrderDetailsView
+
+@{
+    ViewData["Title"] = "Details";
+}
+<h2>Details</h2>
+<div>
+    <h4>SalesOrder</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Destination)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Destination)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TraderUsername)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TraderUsername)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BuyerUsername)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BuyerUsername)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EstimatedPrice)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EstimatedPrice)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Tip)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tip)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Published)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Published)
+        </dd>
+    </dl>
+</div>
+@await Html.PartialAsync("_ShoppingList.cshtml")
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

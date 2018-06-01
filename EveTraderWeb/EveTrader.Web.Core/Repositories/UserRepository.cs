@@ -17,23 +17,26 @@ namespace EveTrader.Web.Core
 
 	public class UserRepository : IUserRepository
 	{
-		private readonly IApi api;
 
-		public UserRepository(IApi api)
+		public EVETraderClient ETAClient { get; }
+
+		public UserRepository(EVETraderClient eTAclient)
 		{
-			this.api = api;
+			ETAClient = eTAclient;
 		}
 
 		public async Task<User> CreateUser(User user)
 		{
-			var userString = JsonConvert.SerializeObject(user);
-			var response = await api.CallAPiAsync(HttpMethod.Post, $"/api/Users", userString);
-			return (User)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(User));
+			//var userString = JsonConvert.SerializeObject(user);
+			//var response = await api.CallAPiAsync(HttpMethod.Post, $"/api/Users", userString);
+			var response = await ETAClient.Client.PostAsJsonAsync($"/api/Users", user);
+			return await Deserialize<User>.DeserializeTAsync(response);
 		}
 
 		public async Task<User> GetAsync(int id)
 		{
-			var response = await api.CallAPiAsync(HttpMethod.Get, $"/api/Users/{id}");
+			//var response = await api.CallAPiAsync(HttpMethod.Get, $"/api/Users/{id}");
+			var response = await ETAClient.Client.GetAsync($"/api/Users/{id}");
 			return (User)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(User));
 		}
 	}

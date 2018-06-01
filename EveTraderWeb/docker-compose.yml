@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  evetrader.web2:
+    image: ${DOCKER_REGISTRY}evetraderweb2
+    build:
+      context: .
+      dockerfile: EVETrader.Web2\Dockerfile

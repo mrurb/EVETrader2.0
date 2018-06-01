@@ -21,17 +21,18 @@ namespace EveTrader.Web.Core
 
 	public class ShoppingListRepository : IShoppingListRepository
 	{
-		private readonly IApi api;
+		public EVETraderClient ETAclient { get; }
 
-		public ShoppingListRepository(IApi api)
+		public ShoppingListRepository(EVETraderClient eTAclient)
 		{
-			this.api = api;
+			ETAclient = eTAclient;
 		}
 
 		public async Task<IEnumerable<ShoppingList>> GetShoppingList(int id)
 		{
-			var shoppinglists = await api.CallAPiAsync(HttpMethod.Get, $"/api/ShoppingLists/{id}");
-			return JsonConvert.DeserializeObject<IEnumerable<ShoppingList>>(await shoppinglists.Content.ReadAsStringAsync());
+			//var shoppinglists = await api.CallAPiAsync(HttpMethod.Get, $"/api/ShoppingLists/{id}");
+			var shoppinglists = await ETAclient.Client.GetAsync($"/api/ShoppingLists/{id}");
+			return await Deserialize<IEnumerable<ShoppingList>>.DeserializeTAsync(shoppinglists);
 		}
 	}
 }
