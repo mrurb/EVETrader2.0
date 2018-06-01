@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authentication.OAuth;
 using EveTrader.Web.Core;
 using System.Net.Http.Headers;
 using EveTrader.Web.Core.Repositories;
+using EVETrader.Web2.Models;
 
 namespace EVETrader.Web2
 {
@@ -41,7 +42,7 @@ namespace EVETrader.Web2
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
 			services.AddAuthentication()
